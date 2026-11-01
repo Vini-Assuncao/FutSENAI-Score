@@ -371,9 +371,6 @@
     playerMatchItem('most-assists-game', 'Mais assistências em uma partida', '♕', 'assistências', bestLine('assists'));
     playerMatchItem('most-ga-game', 'Mais participações em uma partida', '✚', 'participações', bestLine('ga'));
     matchItem('biggest-draw', 'Empate com mais gols', '＝', 'gols no total', bestMatch(summary => (summary.score_a === summary.score_b ? summary.total_goals : 0)));
-    if (normalized === 'interclass') {
-      matchItem('second-year-best', 'Maior placar do 2º Ano', '2º', 'gols', bestMatch(summary => summary.score_b));
-    }
     playerStreakItem('win-streak', 'Maior sequência de vitórias', '✦', 'vitórias seguidas', streakWins);
     playerStreakItem('presence-streak', 'Maior sequência de presenças', '◷', 'partidas seguidas', streakPresence);
     matchItem('biggest-rout', 'Maior goleada', '⇅', 'de diferença',

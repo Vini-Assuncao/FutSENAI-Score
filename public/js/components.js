@@ -54,16 +54,19 @@ export function matchCard(match) {
   return `<article class="match-card ${interclass ? 'match-card-interclass' : ''}" data-action="open-match" data-id="${match.id}" tabindex="0" aria-label="Abrir detalhes da partida de ${shortDate(match.played_on, true)}"><div class="match-card-top"><span><strong>${shortDate(match.played_on, true)}</strong> · Quadra <em class="match-kind ${interclass ? 'interclass' : ''}">${interclass ? 'INTERCLASSE' : 'ENTRE NÓS'}</em></span><span>${players}</span></div><div class="match-card-scoreboard"><div class="match-team-box"><div class="team-large-icon ${teamIconClass(match, 'A')}">●</div><strong title="${esc(teamA)}">${esc(teamA)}</strong><small>${match.players_a} ${match.players_a === 1 ? 'jogador' : 'jogadores'}</small></div><div class="scoreboard-score">${match.score_a}<span>:</span>${match.score_b}</div><div class="match-team-box"><div class="team-large-icon ${teamIconClass(match, 'B')}">●</div><strong title="${esc(teamB)}">${esc(teamB)}</strong><small>${interclass ? 'Placar total do adversário' : `${match.players_b} ${match.players_b === 1 ? 'jogador' : 'jogadores'}`}</small></div></div><div class="match-card-bottom"><span class="participants-label"><b>${match.total_goals}</b> gols · ${players}</span><div class="match-card-actions"><button data-action="open-match" data-id="${match.id}">Detalhes ↗</button><button data-action="delete-match" data-id="${match.id}">Excluir</button></div></div></article>`;
 }
 export function playerModeStats(title, subtitle, playerStats) {
-  const stats = playerStats || { matches_played: 0, goals: 0, assists: 0, wins: 0, draws: 0, losses: 0, win_rate: 0 };
-  const values = [
-    ['Partidas', stats.matches_played],
-    ['Gols', stats.goals],
-    ['Assistências', stats.assists],
-    ['Vitórias', stats.wins],
-    ['Empates', stats.draws],
-    ['Derrotas', stats.losses]
+  const s = playerStats || { matches_played: 0, goals: 0, assists: 0, wins: 0, draws: 0, losses: 0, win_rate: 0 };
+  const tiles = [
+    ['⚑', 'Partidas', s.matches_played, 'tile-orange'],
+    ['⚽︎', 'Gols', s.goals, 'tile-red'],
+    ['♕', 'Assistências', s.assists, 'tile-blue'],
+    ['✦', 'Vitórias', s.wins, 'tile-green'],
+    ['＝', 'Empates', s.draws, 'tile-grey'],
+    ['✖', 'Derrotas', s.losses, 'tile-loss']
   ];
-  return `<section class="panel player-mode-panel"><div class="panel-head"><div><h2 class="panel-title">${title}</h2><div class="panel-subtitle">${subtitle}</div></div><span class="player-win-rate">${stats.win_rate}% vitórias</span></div><div class="player-mode-stats">${values.map(([label, value]) => `<div><strong>${value}</strong><span>${label}</span></div>`).join('')}</div></section>`;
+  return `<section class="panel player-mode-panel">
+    <div class="panel-head"><div><h2 class="panel-title">${title}</h2><div class="panel-subtitle">${subtitle}</div></div></div>
+    <div class="pmp-body"><div class="pmp-tiles">${tiles.map(([icon, label, value, cls]) => `<div class="pmp-tile ${cls}"><span class="pmp-icon" aria-hidden="true">${icon}</span><strong>${value}</strong><span>${label}</span></div>`).join('')}</div></div>
+  </section>`;
 }
 export function statsSortHeader(label, key) {
   const sorted = state.statsSort === key;

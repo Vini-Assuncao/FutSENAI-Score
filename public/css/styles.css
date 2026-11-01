@@ -1151,15 +1151,6 @@ noscript .noscript-msg{display:block;margin:40px auto;max-width:420px;padding:20
 .record-value strong{font:800 22px/1 var(--display);color:var(--ink)}
 .record-value span{font-size:10px;color:var(--muted);margin-top:3px;max-width:88px;text-align:right;line-height:1.2}
 
-/* Marcos com empate: duas fotos em diagonal, ou iniciais para três ou mais */
-.record-icon.record-duo{width:44px;height:44px;position:relative;overflow:hidden;padding:0;border-radius:13px}
-.record-duo .duo-half{position:absolute;inset:0;display:block;overflow:hidden}
-.record-duo .duo-half img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block}
-.record-duo .duo-top{clip-path:polygon(0 0,100% 0,0 100%)}
-.record-duo .duo-bottom{clip-path:polygon(100% 0,100% 100%,0 100%)}
-.record-duo .duo-initial{display:grid;place-items:center;width:100%;height:100%;font:800 12px var(--display);color:var(--red)}
-.record-duo::after{content:"";position:absolute;left:-10%;top:52%;width:130%;height:1.5px;background:#fff;transform:rotate(-45deg);transform-origin:center;opacity:.9;pointer-events:none}
-.record-icon.record-trio{font:800 9px/1.1 var(--display);letter-spacing:.2px;color:var(--red);padding:0 3px;text-align:center;word-break:break-all}
 
 .record-copy strong.record-names{white-space:normal;line-height:1.35}
 
@@ -1218,3 +1209,106 @@ noscript .noscript-msg{display:block;margin:40px auto;max-width:420px;padding:20
 @keyframes teamIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(max-width:1020px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.group-sites{grid-template-columns:1fr 1fr}}
 @media(max-width:680px){.team-grid,.group-sites{grid-template-columns:1fr}.team-hero{aspect-ratio:4/3;min-height:0}.team-head h2{font-size:30px}.team-card-frame{max-width:440px;margin:0 auto;width:100%}.team-grid{justify-items:center}}
+
+/* ---------- Ajustes da rodada: equipe, jogador, comparar, estatísticas e menu ---------- */
+.team-links{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+.team-links .team-github{margin-top:0}
+.team-linkedin{text-decoration:none;font-weight:800;font-size:12px;color:#0a66c2;border:1.5px solid #0a66c2;padding:7px 13px;border-radius:10px;transition:background .18s var(--ease),color .18s var(--ease)}
+.team-linkedin:hover{background:#0a66c2;color:#fff}
+
+/* Histórico do jogador: cards padronizados com as partidas */
+.pmc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:4px 20px 20px}
+.pmc{position:relative;background:#fff;border:1px solid var(--line);border-left:6px solid #9aa0ad;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease);min-width:0}
+.pmc:hover,.pmc:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow)}
+.pmc:focus-visible{outline:3px solid #f5a4b5;outline-offset:2px}
+.pmc.is-win{border-left-color:var(--green)}
+.pmc.is-loss{border-left-color:var(--red)}
+.pmc.is-draw{border-left-color:#9aa0ad}
+.pmc-top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.pmc-date{font-weight:800;color:var(--ink-2)}
+.pmc-kind{font:800 10px var(--display);letter-spacing:.5px;text-transform:uppercase;padding:4px 8px;border-radius:7px;background:var(--red-soft);color:var(--red)}
+.pmc.is-interclass .pmc-kind{background:var(--blue-soft);color:var(--blue)}
+.pmc-score{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;text-align:center}
+.pmc-team{font-weight:700;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#6b6f7c}
+.pmc-team.is-own{color:var(--ink);font-weight:800}
+.pmc-score strong{font:800 24px var(--display);letter-spacing:-.5px}
+.pmc-score strong span{color:#b2b4bd;margin:0 4px;font-size:18px}
+.pmc-foot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid #f0f0f3;padding-top:12px;font-size:12px;color:var(--muted)}
+.pmc-result{font:800 11px var(--display);letter-spacing:.4px;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.pmc.is-win .pmc-result{background:var(--green-soft);color:var(--green)}
+.pmc.is-loss .pmc-result{background:var(--red-soft);color:var(--red)}
+.pmc.is-draw .pmc-result{background:#eef0f4;color:#555762}
+.pmc-stat b{color:var(--ink);font-size:13px}
+.pmc-open{margin-left:auto;color:var(--red);font-weight:800}
+@media(max-width:760px){.pmc-list{grid-template-columns:1fr;padding:4px 14px 16px}}
+
+/* Estatísticas do jogador: anel de aproveitamento, tiles coloridos e barra de resultados */
+.player-mode-panel{padding-bottom:18px}
+.pmp-body{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center;padding:6px 22px 4px}
+.pmp-ring{position:relative;width:118px;height:118px}
+.pmp-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pmp-track{fill:none;stroke:#f0f1f5;stroke-width:9}
+.pmp-fill{fill:none;stroke:var(--red);stroke-width:9;transition:stroke-dasharray .6s var(--ease)}
+.pmp-ring div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pmp-ring strong{font:800 20px var(--display);letter-spacing:-.5px}
+.pmp-ring span{font-size:11px;color:var(--muted);font-weight:700}
+.pmp-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pmp-tile{border-radius:14px;padding:12px 12px 11px;display:flex;flex-direction:column;gap:2px;border:1px solid transparent;min-width:0}
+.pmp-tile strong{font:800 24px/1.1 var(--display);letter-spacing:-.5px}
+.pmp-tile>span:last-child{font-size:11px;font-weight:700;opacity:.85}
+.pmp-icon{font-size:14px;opacity:.85}
+.tile-red{background:var(--red-soft);color:var(--red);border-color:var(--red-line)}
+.tile-blue{background:#eef4ff;color:var(--blue);border-color:#cfe0ff}
+.tile-green{background:var(--green-soft);color:var(--green);border-color:#bfe6d3}
+.tile-grey{background:#f3f4f7;color:#555762;border-color:#e3e5ec}
+.tile-dark{background:#fff;color:var(--ink);border-color:var(--line)}
+.pmp-bar{display:flex;height:10px;border-radius:999px;overflow:hidden;margin:16px 22px 0;background:#f0f1f5}
+.pmp-bar span{display:block;height:100%;transition:width .6s var(--ease)}
+.pmp-w{background:var(--green)}
+.pmp-d{background:#b6bac6}
+.pmp-l{background:var(--red)}
+@media(max-width:600px){.pmp-body{grid-template-columns:1fr;justify-items:center}.pmp-tiles{width:100%}}
+
+/* Marcos históricos: duas fotos sobrepostas na diagonal, no mesmo espaço do ícone de uma foto */
+.record-icon.record-duo{position:relative;overflow:visible;padding:0;background:transparent;border:0;border-radius:11px}
+.record-duo .duo-half{position:absolute;width:26px;height:26px;border-radius:9px;overflow:hidden;border:2px solid #fff;box-shadow:0 2px 6px rgba(20,22,30,.25);background:var(--surface-2);display:block}
+.record-duo .duo-half img{width:100%;height:100%;object-fit:cover;display:block}
+.record-duo .duo-top{left:0;top:0;z-index:2}
+.record-duo .duo-bottom{right:0;bottom:0;z-index:1}
+.record-duo .duo-initial{display:grid;place-items:center;width:100%;height:100%;font:800 10px var(--display);color:var(--red)}
+.record-icon.record-trio{font:800 9px/1.1 var(--display);letter-spacing:.2px;color:#111;padding:0 3px;text-align:center;word-break:break-all}
+
+/* Comparar: a primeira coluna acompanha o destaque da linha no hover */
+.compare-table tbody tr:hover th{background:#fff8f9}
+
+/* Menu lateral: contadores em vermelho, um tom mais forte que o item ativo */
+
+/* Estatísticas no celular: a tabela rola na horizontal em vez de apertar as colunas */
+@media(max-width:760px){
+  .stats-page-grid .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .stats-page-grid .stats-table{min-width:560px}
+  .compare-table{min-width:0}
+}
+
+/* ---------- Ajustes finais: tabela de comparação, estatísticas, histórico e menu ---------- */
+/* Comparar: colunas de índice mais escuras, com linha leve separando os dados */
+.compare-table th{background:#f3f4f9;color:#2c2e38;border-right:1px solid #dadde7}
+.compare-table thead th{background:#f3f4f9;color:#3c3f4c;border-top:0}
+.compare-table tbody tr:hover th{background:#e2e5ee}
+.compare-table td.num{border-left:1px solid #f1f2f6}
+.compare-table td.is-best{background:var(--green-soft);color:var(--green)}
+
+/* Estatísticas do jogador: só as tiles, com cores por categoria */
+.pmp-body{display:block;padding:6px 22px 20px}
+.pmp-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tile-orange{background:#FFF8EF;color:#c8640c;border-color:#ffd3a6}
+.tile-loss{background:#fbd6df;color:#a80f31;border-color:#f3b4c3}
+.tile-red{background:var(--red-soft);color:var(--red);border-color:var(--red-line)}
+
+/* Últimas partidas: fundo bem claro conforme o resultado */
+.pmc.is-win{background:#f3fbf6}
+.pmc.is-loss{background:#fff4f6}
+.pmc.is-draw{background:#f7f8fa}
+
+/* Menu lateral: cinza normal, vermelho discreto no hover, vermelho no item selecionado (original) */
+.nav-item:not(.active):hover .nav-count{background:#f9d6df;color:var(--red)}

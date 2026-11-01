@@ -46,6 +46,7 @@ const TEAM_MEMBERS = [
     tone: 'red',
     photo: 'assets/equipe/vinicius-assuncao.jpg',
     github: 'https://github.com/Vini-Assuncao',
+    linkedin: 'https://www.linkedin.com/in/vin%C3%ADcius-assun%C3%A7%C3%A3o-83101a310/',
     tags: ['Inovador', 'Pioneiro'],
     bio: 'Pioneiro do projeto: imaginou e constrói o placar da turma, com partidas, times sorteados, gols e estatísticas.'
   },
@@ -55,6 +56,7 @@ const TEAM_MEMBERS = [
     tone: 'blue',
     photo: 'assets/equipe/pietro-guedes.jpg',
     github: 'https://github.com/Pietro-Guedes',
+    linkedin: 'https://www.linkedin.com/in/pietro-guedes-69a5a9369/',
     tags: ['Focado', 'Disciplinado'],
     bio: 'Mantém a redação da turma em dia, transformando os lances da quadra em notícias que todo mundo quer ler.'
   },
@@ -64,6 +66,7 @@ const TEAM_MEMBERS = [
     tone: 'purple',
     photo: 'assets/equipe/vinicius-valle.jpg',
     github: 'https://github.com/Valle-Vinicius',
+    linkedin: 'https://www.linkedin.com/in/viniciusvallee/',
     tags: ['Criativo', 'Talentoso'],
     bio: 'Transforma cada jogador em carta colecionável, com raridades que vão do Comum ao Ícone e overall calculado.'
   }
@@ -104,7 +107,10 @@ function teamSectionHtml() {
           <p class="team-role">${esc(member.role)}</p>
           <div class="team-tags">${member.tags.map(tag => `<span>${esc(tag)}</span>`).join('')}</div>
           <p class="team-bio">${esc(member.bio)}</p>
-          <a class="team-github" href="${esc(member.github)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          <div class="team-links">
+            <a class="team-github" href="${esc(member.github)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a class="team-linkedin" href="${esc(member.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          </div>
         </div>
       </div>
     </article>`).join('');
@@ -126,7 +132,7 @@ function teamSectionHtml() {
   }).join('');
 
   return `<section class="team-section" id="teamSection" aria-labelledby="teamTitle">
-    <div class="team-head">
+    <div class="team-head" id="teamHead">
       <div class="eyebrow">NOSSA TURMA, NOSSO CÓDIGO</div>
       <h2 id="teamTitle">A Equipe do FutSENAI<span class="team-dot">.</span></h2>
       <p>Quem monta o placar, escreve as notícias e cria as cartas da turma.</p>
