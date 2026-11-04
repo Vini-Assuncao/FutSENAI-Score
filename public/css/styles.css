@@ -1312,3 +1312,24 @@ noscript .noscript-msg{display:block;margin:40px auto;max-width:420px;padding:20
 
 /* Menu lateral: cinza normal, vermelho discreto no hover, vermelho no item selecionado (original) */
 .nav-item:not(.active):hover .nav-count{background:#f9d6df;color:var(--red)}
+
+/* ---------- Ajustes: cores discretas, crachá de overall, logos da equipe ---------- */
+.player-overall{width:max-content;max-width:100%;justify-self:start;align-self:start}
+.tile-orange{background:#fff9f1;color:#b8610f;border-color:#fde3c4}
+.tile-red{background:#fff7f9;color:#c2375a;border-color:#fbd9e2}
+.tile-blue{background:#f6f9ff;color:#2f66c9;border-color:#dce8fb}
+.tile-green{background:#f3fbf6;color:#1f7a50;border-color:#d3eedd}
+.tile-grey{background:#f8f9fb;color:#5d606d;border-color:#e6e8ef}
+.tile-loss{background:#fcecf1;color:#9b2a4a;border-color:#f5cdd9}
+.team-logo{width:15px;height:15px;display:inline-block;vertical-align:-2px;margin-right:6px;background:center/contain no-repeat}
+.team-linkedin{color:#0e76a8;border-color:#0e76a8}
+.team-linkedin:hover{background:#0e76a8;color:#fff}
+.team-linkedin .team-logo{filter:none}
+.team-github .team-logo{filter:none}
+/* Logos das redes: hover invertido (GitHub branco; LinkedIn com quadrado branco e "in" azul) */
+.team-logo-gh{background-image:url(../assets/equipe/icon-github.png)}
+.team-github:hover .team-logo-gh{filter:invert(1)}
+.team-logo-li{background-image:url(../assets/equipe/icon-linkedin.png)}
+.team-linkedin:hover .team-logo-li{background-image:url(../assets/equipe/icon-linkedin-hover.png)}
+.team-linkedin:hover{background:#0e76a8;color:#fff}
+

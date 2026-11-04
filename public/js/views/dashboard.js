@@ -75,7 +75,7 @@ const TEAM_MEMBERS = [
 const GROUP_SITES = [
   {
     name: 'FutSENAI Score',
-    icon: '⚑',
+    icon: '⫶☰',
     text: 'O placar da turma: partidas, gols, times sorteados, estatísticas, comparações e marcos históricos.',
     href: null,
     cta: 'Você está aqui'
@@ -89,7 +89,7 @@ const GROUP_SITES = [
   },
   {
     name: 'FutSENAI Cards',
-    icon: '◈',
+    icon: '🂺',
     text: 'O jogo de cartas dos jogadores, com seis raridades, overall e a carta Incomum de cada um.',
     href: 'https://fut-senai-cards.vercel.app/',
     cta: 'Abrir os cards ↗'
@@ -108,8 +108,8 @@ function teamSectionHtml() {
           <div class="team-tags">${member.tags.map(tag => `<span>${esc(tag)}</span>`).join('')}</div>
           <p class="team-bio">${esc(member.bio)}</p>
           <div class="team-links">
-            <a class="team-github" href="${esc(member.github)}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-            <a class="team-linkedin" href="${esc(member.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            <a class="team-github" href="${esc(member.github)}" target="_blank" rel="noopener noreferrer"><span class="team-logo team-logo-gh" aria-hidden="true"></span>GitHub</a>
+            <a class="team-linkedin" href="${esc(member.linkedin)}" target="_blank" rel="noopener noreferrer"><span class="team-logo team-logo-li" aria-hidden="true"></span>LinkedIn</a>
           </div>
         </div>
       </div>
