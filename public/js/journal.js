@@ -113,8 +113,19 @@ export function stopJournalRotation() {
 }
 export function startJournalRotation() {
   stopJournalRotation();
-  if (journalNews.length < 2 || (freshJournalNews && isFreshJournalNews(freshJournalNews.createdAt))) return;
-  journalRotationTimer = window.setInterval(() => showJournalNews(journalCurrentIndex + 1), JOURNAL_ROTATION_MS);
+  if (journalNews.length < 2) return;
+  journalRotationTimer = window.setInterval(() => {
+    const freshIndices = journalNews
+      .map((item, index) => isFreshJournalNews(item.createdAt) ? index : -1)
+      .filter(index => index >= 0);
+    if (freshIndices.length === 1) return;
+    const rotationIndices = freshIndices.length ? freshIndices : journalNews.map((_, index) => index);
+    const currentRotationIndex = rotationIndices.indexOf(journalCurrentIndex);
+    const nextRotationIndex = currentRotationIndex < 0
+      ? 0
+      : (currentRotationIndex + 1) % rotationIndices.length;
+    showJournalNews(rotationIndices[nextRotationIndex]);
+  }, JOURNAL_ROTATION_MS);
 }
 export function showJournalNews(nextIndex) {
   if (journalNews.length < 2) return;
@@ -131,20 +142,21 @@ export function showJournalNews(nextIndex) {
 }
 export function renderLatestJournalNews(items) {
   const incoming = (Array.isArray(items) ? items : [items])
-    .filter(item => item && typeof item === 'object' && typeof item.title === 'string' && item.title.trim())
-    .slice(0, 3);
-  journalNews = incoming.length ? incoming : fallbackJournalNewsFromMarkup();
-  freshJournalNews = journalNews
+    .filter(item => item && typeof item === 'object' && typeof item.title === 'string' && item.title.trim());
+  const availableNews = incoming.length ? incoming : fallbackJournalNewsFromMarkup();
+  const allFreshNews = availableNews
     .filter(item => isFreshJournalNews(item.createdAt))
-    .sort((left, right) => Date.parse(right.createdAt) - Date.parse(left.createdAt))[0] || null;
+    .sort((left, right) => Date.parse(right.createdAt) - Date.parse(left.createdAt));
+  freshJournalNews = allFreshNews[0] || null;
+  journalNews = availableNews;
   const freshTicker = document.getElementById('freshNewsTicker');
   const freshTickerText = document.getElementById('freshNewsTickerText');
   const freshTickerRepeat = document.getElementById('freshNewsTickerRepeat');
   if (freshTicker && freshTickerText && freshTickerRepeat) {
-    const headline = String(freshJournalNews?.title || '').trim();
+    const headline = allFreshNews.map(item => String(item.title || '').trim()).join('  •  ');
     freshTickerText.textContent = headline;
     freshTickerRepeat.textContent = headline;
-    freshTicker.setAttribute('aria-label', headline ? `Notícia fresca! Abrir Notícias FutSENAI: ${headline}` : 'Notícia fresca! Abrir Notícias FutSENAI');
+    freshTicker.setAttribute('aria-label', headline ? `Notícias frescas! Abrir Notícias FutSENAI: ${headline}` : 'Notícia fresca! Abrir Notícias FutSENAI');
   }
   const freshIndex = journalNews.findIndex(item => item === freshJournalNews);
   journalCurrentIndex = freshIndex >= 0 ? freshIndex : 0;
@@ -215,8 +227,7 @@ async function loadJournalJsonFeed() {
   return articles
     .filter(item => item && typeof item.title === 'string' && item.title.trim()
       && typeof item.createdAt === 'string' && Number.isFinite(Date.parse(item.createdAt)))
-    .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
-    .slice(0, 3);
+    .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
 }
 export async function loadLatestJournalNews() {
   if (journalLoadInProgress) return;
@@ -226,7 +237,7 @@ export async function loadLatestJournalNews() {
     try {
       const latest = await loadJournalSupabaseNews();
       if (latest.length) {
-        renderLatestJournalNews(latest.slice(0, 3));
+        renderLatestJournalNews(latest);
         return;
       }
     } catch (error) {

@@ -84,7 +84,7 @@ const GROUP_SITES = [
     name: 'Jornal FutSENAI',
     icon: '✎',
     text: 'A redação da turma: notícias das partidas com capa, data e tags, reunidas em um carrossel e num jornal próprio.',
-    href: 'https://pietro-guedes.github.io/FutSenai-Jornal/',
+    href: 'https://futsenaijornal.vercel.app/',
     cta: 'Ler o jornal ↗'
   },
   {
