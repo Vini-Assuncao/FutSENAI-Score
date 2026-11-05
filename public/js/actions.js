@@ -2,7 +2,7 @@
 import { renderCurrent } from './router.js';
 import { modalRoot, state } from './state.js';
 import { closeModal, toast, updateChrome } from './ui.js';
-import { jsonOptions } from './utils.js';
+import { jsonOptions, miIcon } from './utils.js';
 import { renderDashboard } from './views/dashboard.js';
 import { renderMatchDetail } from './views/match-detail.js';
 import { renderMatches } from './views/matches.js';
@@ -58,7 +58,7 @@ export async function submitMatchForm(form) {
     await renderMatchDetail();
   } catch (error) {
     toast(error.message, 'error');
-    if (submitButton) { submitButton.disabled = false; submitButton.textContent = 'Criar partida →'; }
+    if (submitButton) { submitButton.disabled = false; submitButton.innerHTML = `Criar partida ${miIcon('arrow_forward')}`; }
   }
 }
 export async function submitGoalForm(form) {

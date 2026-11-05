@@ -404,7 +404,7 @@ import { SNAPSHOT } from './catalog-snapshot.js';
     section.dataset.key = normalizeName(playerName) + '|' + catalogSig;
 
     const match = findCatalogPlayer(playerName, catalog);
-    const link = `<a class="fsc-open" href="${CARDS_SITE}" target="_blank" rel="noopener noreferrer">Abrir FutSENAI Cards ↗</a>`;
+    const link = `<a class="fsc-open" href="${CARDS_SITE}" target="_blank" rel="noopener noreferrer">Abrir FutSENAI Cards <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span></a>`;
     const head = subtitle => `<div class="panel-head"><div><h2 class="panel-title">Cards</h2><div class="panel-subtitle">${subtitle}</div></div><div>${link}</div></div>`;
 
     if (!match) {

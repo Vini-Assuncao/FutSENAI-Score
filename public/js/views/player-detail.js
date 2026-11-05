@@ -3,7 +3,7 @@ import { avatar, overallMarkup, playerModeStats } from '../components.js';
 import { navigate } from '../router.js';
 import { pageContent, state } from '../state.js';
 import { setLoading, updateChrome } from '../ui.js';
-import { esc, playerOverall, shortDate } from '../utils.js';
+import { esc, playerOverall, shortDate, miIcon } from '../utils.js';
 
 import { api } from '../api.js';
 
@@ -30,11 +30,11 @@ export async function renderPlayerDetail() {
       </div>
       <div class="pmc-foot">
         <span class="pmc-result">${resultLabel}</span>
-        <span class="pmc-stat">⚽︎ <b>${match.goals}</b> ${match.goals === 1 ? 'gol' : 'gols'}</span>
-        <span class="pmc-stat">♕ <b>${match.assists}</b> ${match.assists === 1 ? 'assistência' : 'assistências'}</span>
-        <span class="pmc-open">Súmula ↗</span>
+        <span class="pmc-stat">${miIcon('sports_soccer')} <b>${match.goals}</b> ${match.goals === 1 ? 'gol' : 'gols'}</span>
+        <span class="pmc-stat">${miIcon('crown')} <b>${match.assists}</b> ${match.assists === 1 ? 'assistência' : 'assistências'}</span>
+        <span class="pmc-open">Súmula ${miIcon('arrow_outward')}</span>
       </div>
     </article>`;
   }).join('') : '<div class="empty-inline"><strong>Nenhuma partida no histórico</strong>Quando o jogador participar de uma partida, o desempenho aparecerá aqui.</div>';
-  pageContent.innerHTML = `<section class="page-heading"><div><div class="eyebrow">DESEMPENHO INDIVIDUAL</div><h1>Histórico do jogador<span style="color:var(--red)">.</span></h1><p>Estatísticas separadas por modo de jogo e partidas recentes em uma única linha do tempo.</p></div><div class="heading-actions"><button class="btn btn-secondary" data-action="back-player-profile">← Voltar</button><button class="btn btn-primary" data-action="compare-player" data-id="${player.id}">⚖ Comparar</button></div></section><section class="panel player-profile-hero"><div class="player-profile-identity">${avatar(player, 'player-profile-avatar')}<div><span class="eyebrow">${player.is_active ? 'JOGADOR ATIVO' : 'JOGADOR ARQUIVADO'}</span><h2>${esc(player.name)}</h2>${overallMarkup(playerOverall(player.name))}</div></div></section><div class="player-mode-grid">${playerModeStats('Entre nós · 3º A', 'Partidas entre jogadores da turma', stats.internal)}${playerModeStats('Interclasse · 2º Ano', 'Partidas contra o 2º Ano', stats.interclass)}</div><section class="panel player-history-panel"><div class="panel-head"><div><h2 class="panel-title">Últimas partidas</h2><div class="panel-subtitle">Os dois modos de jogo, em ordem da mais recente</div></div><span class="results-label">${matches.length} ${matches.length === 1 ? 'partida' : 'partidas'}</span></div><div class="pmc-list">${matchHistory}</div></section>`;
+  pageContent.innerHTML = `<section class="page-heading"><div><div class="eyebrow">DESEMPENHO INDIVIDUAL</div><h1>Histórico do jogador<span style="color:var(--red)">.</span></h1><p>Estatísticas separadas por modo de jogo e partidas recentes em uma única linha do tempo.</p></div><div class="heading-actions"><button class="btn btn-secondary" data-action="back-player-profile">${miIcon('arrow_back')} Voltar</button><button class="btn btn-primary" data-action="compare-player" data-id="${player.id}">${miIcon('balance')} Comparar</button></div></section><section class="panel player-profile-hero"><div class="player-profile-identity">${avatar(player, 'player-profile-avatar')}<div><span class="eyebrow">${player.is_active ? 'JOGADOR ATIVO' : 'JOGADOR ARQUIVADO'}</span><h2>${esc(player.name)}</h2>${overallMarkup(playerOverall(player.name))}</div></div></section><div class="player-mode-grid">${playerModeStats('Entre nós · 3º A', 'Partidas entre jogadores da turma', stats.internal)}${playerModeStats('Interclasse · 2º Ano', 'Partidas contra o 2º Ano', stats.interclass)}</div><section class="panel player-history-panel"><div class="panel-head"><div><h2 class="panel-title">Últimas partidas</h2><div class="panel-subtitle">Os dois modos de jogo, em ordem da mais recente</div></div><span class="results-label">${matches.length} ${matches.length === 1 ? 'partida' : 'partidas'}</span></div><div class="pmc-list">${matchHistory}</div></section>`;
 }

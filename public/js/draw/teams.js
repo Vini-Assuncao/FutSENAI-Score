@@ -4,7 +4,7 @@ import { MAX_DRAW_OVERALL_AVERAGE_GAP_TENTHS } from '../config.js';
 import { updateTeamCounts } from '../modals/match-form.js';
 import { state } from '../state.js';
 import { toast } from '../ui.js';
-import { esc, playerOverall } from '../utils.js';
+import { esc, playerOverall, miIcon } from '../utils.js';
 
 export function drawTeams() {
   if (document.getElementById('opponentType')?.value === 'second_year') {
@@ -171,7 +171,7 @@ export function drawTeams() {
       if (entry) cardIndexByPlayer.set(entry, cardIndex++);
     });
   }
-  const deckHeader = `<div class="draw-stage-heading"><div class="draw-stage-title"><span class="draw-stage-kicker"><i class="draw-stage-pulse"></i>SORTEIO DE CARTAS</span><strong>Revele os jogadores</strong><small>Clique no baralho para revelar uma carta por vez.</small><span class="draw-stage-progress" id="drawStageProgress" role="status">0 de ${cardIndex} jogadores revelados</span></div><div class="draw-stage-actions"><button type="button" class="btn btn-secondary draw-reroll-button" data-action="reroll-teams">↻ Re-sortear times</button><button type="button" class="draw-deck" data-action="reveal-next-player" aria-label="Revelar próximo jogador"><span class="draw-deck-cards" aria-hidden="true"><span class="draw-deck-card draw-deck-card-shadow"></span><span class="draw-deck-card draw-deck-card-mid">⚽︎</span><span class="draw-deck-card draw-deck-card-top"><b>FS</b><i>✦</i></span></span><span class="draw-deck-hint">CLIQUE PARA REVELAR</span></button></div></div>`;
+  const deckHeader = `<div class="draw-stage-heading"><div class="draw-stage-title"><span class="draw-stage-kicker"><i class="draw-stage-pulse"></i>SORTEIO DE CARTAS</span><strong>Revele os jogadores</strong><small>Clique no baralho para revelar uma carta por vez.</small><span class="draw-stage-progress" id="drawStageProgress" role="status">0 de ${cardIndex} jogadores revelados</span></div><div class="draw-stage-actions"><button type="button" class="btn btn-secondary draw-reroll-button" data-action="reroll-teams">${miIcon('autorenew')} Re-sortear times</button><button type="button" class="draw-deck" data-action="reveal-next-player" aria-label="Revelar próximo jogador"><span class="draw-deck-cards" aria-hidden="true"><span class="draw-deck-card draw-deck-card-shadow"></span><span class="draw-deck-card draw-deck-card-mid">⚽︎</span><span class="draw-deck-card draw-deck-card-top"><b>FS</b><i>✦</i></span></span><span class="draw-deck-hint">CLIQUE PARA REVELAR</span></button></div></div>`;
   results.dataset.revealedCount = '0';
   results.classList.remove('is-complete');
   results.innerHTML = deckHeader + sortedTeams.map(team => {

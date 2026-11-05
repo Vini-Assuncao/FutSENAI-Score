@@ -367,17 +367,17 @@
       });
     };
 
-    playerMatchItem('most-goals-game', 'Mais gols em uma partida', '⚽︎', 'gols', bestLine('goals'));
-    playerMatchItem('most-assists-game', 'Mais assistências em uma partida', '♕', 'assistências', bestLine('assists'));
-    playerMatchItem('most-ga-game', 'Mais participações em uma partida', '✚', 'participações', bestLine('ga'));
-    matchItem('biggest-draw', 'Empate com mais gols', '＝', 'gols no total', bestMatch(summary => (summary.score_a === summary.score_b ? summary.total_goals : 0)));
-    playerStreakItem('win-streak', 'Maior sequência de vitórias', '✦', 'vitórias seguidas', streakWins);
-    playerStreakItem('presence-streak', 'Maior sequência de presenças', '◷', 'partidas seguidas', streakPresence);
-    matchItem('biggest-rout', 'Maior goleada', '⇅', 'de diferença',
+    playerMatchItem('most-goals-game', 'Mais gols em uma partida', 'sports_soccer', 'gols', bestLine('goals'));
+    playerMatchItem('most-assists-game', 'Mais assistências em uma partida', 'crown', 'assistências', bestLine('assists'));
+    playerMatchItem('most-ga-game', 'Mais participações em uma partida', 'add_circle', 'participações', bestLine('ga'));
+    matchItem('biggest-draw', 'Empate com mais gols', 'drag_handle', 'gols no total', bestMatch(summary => (summary.score_a === summary.score_b ? summary.total_goals : 0)));
+    playerStreakItem('win-streak', 'Maior sequência de vitórias', 'editor_choice', 'vitórias seguidas', streakWins);
+    playerStreakItem('presence-streak', 'Maior sequência de presenças', 'event_upcoming', 'partidas seguidas', streakPresence);
+    matchItem('biggest-rout', 'Maior goleada', 'arrow_range', 'de diferença',
       bestMatch(summary => Math.abs(summary.score_a - summary.score_b), { tiebreak: winnerGoals, tiebreakDirection: 'max' }));
-    matchItem('most-goals-match', 'Partida com mais gols', '✚', 'gols no total',
+    matchItem('most-goals-match', 'Partida com mais gols', 'add', 'gols no total',
       bestMatch(summary => summary.total_goals, { tiebreak: winnerGoals, tiebreakDirection: 'max' }));
-    matchItem('fewest-goals-match', 'Partida com menos gols', '━', 'gols no total',
+    matchItem('fewest-goals-match', 'Partida com menos gols', 'remove', 'gols no total',
       bestMatch(summary => summary.total_goals, { direction: 'min', tiebreak: winnerGoals, tiebreakDirection: 'min' }));
 
     return { scope: normalized, items };

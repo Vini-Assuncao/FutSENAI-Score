@@ -2,7 +2,7 @@
 import { renderMatchRow, rivalryPanel, scopeFilterHtml, scorerRow, statCard } from '../components.js';
 import { canEdit, pageContent, state } from '../state.js';
 import { setLoading, updateChrome } from '../ui.js';
-import { esc } from '../utils.js';
+import { esc, miIcon } from '../utils.js';
 
 import { api } from '../api.js';
 
@@ -19,21 +19,22 @@ export async function renderDashboard() {
   updateChrome();
   const s = result.summary;
   const matchActionLabel = canEdit() ? 'Registrar partida' : 'Testar sorteio';
+  const matchActionIcon = canEdit() ? miIcon('calendar_add_on') : miIcon('casino');
   const scorerHtml = result.topScorers.length ? result.topScorers.map(scorerRow).join('') : `<div class="empty-inline"><strong>Nenhuma estatística neste filtro</strong>Registre gols ou selecione outro tipo de partida.</div>`;
   const recentHtml = result.recentMatches.length ? result.recentMatches.map(renderMatchRow).join('') : `<div class="empty-inline"><strong>Nenhuma partida neste filtro</strong>Registre um jogo para ver o placar por aqui.</div>`;
   pageContent.innerHTML = `
-    <section class="page-heading"><div><div class="eyebrow">BEM-VINDO À QUADRA</div><h1>O jogo começa aqui<span style="color:var(--red)">.</span></h1><p>Organize a resenha, guarde os resultados e descubra quem está brilhando na quadra.</p></div><div class="heading-actions">${canEdit() ? '<button class="btn btn-secondary" data-action="new-player">＋ Novo jogador</button>' : ''}<button class="btn btn-primary" data-action="new-match">＋ ${matchActionLabel}</button>${canEdit() ? '' : '<button class="btn btn-secondary" data-action="scroll-team">☕︎ Equipe do FutSENAI</button>'}</div></section>
+    <section class="page-heading"><div><div class="eyebrow">BEM-VINDO À QUADRA</div><h1>O jogo começa aqui<span style="color:var(--red)">.</span></h1><p>Organize a resenha, guarde os resultados e descubra quem está brilhando na quadra.</p></div><div class="heading-actions">${canEdit() ? `<button class="btn btn-secondary" data-action="new-player">${miIcon('person_add')} Novo jogador</button>` : ''}<button class="btn btn-primary" data-action="new-match">${matchActionIcon} ${matchActionLabel}</button>${canEdit() ? '' : `<button class="btn btn-secondary" data-action="scroll-team">${miIcon('emoji_food_beverage')} Equipe do FutSENAI</button>`}</div></section>
     <div class="scope-filter-row">${scopeFilterHtml()}</div>
     <section class="stats-grid">
-      ${statCard('Jogadores ativos', s.activePlayers, '♟', 'Elenco disponível do 3º A')}
-      ${statCard('Partidas consideradas', s.totalMatches, '⚑', 'De acordo com o filtro acima')}
-      ${statCard('Gols marcados', s.totalGoals, '⚽︎', 'Placar dos jogos selecionados')}
-      ${statCard('Média de gols / jogo', s.averageGoals, '↗', 'Gols divididos pelas partidas filtradas')}
+      ${statCard('Jogadores ativos', s.activePlayers, miIcon('chess_pawn'), 'Elenco disponível do 3º A')}
+      ${statCard('Partidas consideradas', s.totalMatches, miIcon('scoreboard'), 'De acordo com o filtro acima')}
+      ${statCard('Gols marcados', s.totalGoals, miIcon('sports_soccer'), 'Placar dos jogos selecionados')}
+      ${statCard('Média de gols / jogo', s.averageGoals, miIcon('trending_up'), 'Gols divididos pelas partidas filtradas')}
     </section>
     ${rivalryPanel(result.secondYearRivalry)}
     <section class="dashboard-grid">
-      <article class="panel"><div class="panel-head"><div><h2 class="panel-title">Últimas partidas</h2><div class="panel-subtitle">${state.statsScope === 'interclass' ? 'Somente jogos contra o 2º Ano' : 'Somente jogos entre jogadores do 3º A'}</div></div><button class="text-action" data-action="go-matches">Ver todas →</button></div><div class="match-list">${recentHtml}</div></article>
-      <article class="panel"><div class="panel-head"><div><h2 class="panel-title">Artilharia da turma</h2><div class="panel-subtitle">Gols</div></div><button class="text-action" data-action="go-stats">Ranking →</button></div><div class="scorer-list">${scorerHtml}</div></article>
+      <article class="panel"><div class="panel-head"><div><h2 class="panel-title">Últimas partidas</h2><div class="panel-subtitle">${state.statsScope === 'interclass' ? 'Somente jogos contra o 2º Ano' : 'Somente jogos entre jogadores do 3º A'}</div></div><button class="text-action" data-action="go-matches">Ver todas ${miIcon('arrow_forward', 'text-action-icon')}</button></div><div class="match-list">${recentHtml}</div></article>
+      <article class="panel"><div class="panel-head"><div><h2 class="panel-title">Artilharia da turma</h2><div class="panel-subtitle">Gols</div></div><button class="text-action" data-action="go-stats">Ranking ${miIcon('arrow_forward', 'text-action-icon')}</button></div><div class="scorer-list">${scorerHtml}</div></article>
     </section>
     ${teamSectionHtml()}`;
 }
@@ -75,24 +76,24 @@ const TEAM_MEMBERS = [
 const GROUP_SITES = [
   {
     name: 'FutSENAI Score',
-    icon: '⫶☰',
+    icon: miIcon('leaderboard'),
     text: 'O placar da turma: partidas, gols, times sorteados, estatísticas, comparações e marcos históricos.',
     href: null,
     cta: 'Você está aqui'
   },
   {
     name: 'Jornal FutSENAI',
-    icon: '✎',
+    icon: miIcon('newspaper'),
     text: 'A redação da turma: notícias das partidas com capa, data e tags, reunidas em um carrossel e num jornal próprio.',
-    href: 'https://futsenaijornal.vercel.app/',
-    cta: 'Ler o jornal ↗'
+    href: 'https://pietro-guedes.github.io/FutSenai-Jornal/',
+    cta: `Ler o jornal ${miIcon('open_in_new')}`
   },
   {
     name: 'FutSENAI Cards',
-    icon: '🂺',
+    icon: miIcon('playing_cards'),
     text: 'O jogo de cartas dos jogadores, com seis raridades, overall e a carta Incomum de cada um.',
     href: 'https://fut-senai-cards.vercel.app/',
-    cta: 'Abrir os cards ↗'
+    cta: `Abrir os cards ${miIcon('open_in_new')}`
   }
 ];
 
@@ -118,16 +119,16 @@ function teamSectionHtml() {
   const sites = GROUP_SITES.map(site => {
     const tag = site.href ? 'a' : 'article';
     const attributes = site.href
-      ? `href="${esc(site.href)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(site.name)}: ${esc(site.cta)}"`
+      ? `href="${esc(site.href)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(site.name)}: ${site.cta}"`
       : '';
     return `
     <${tag} class="group-site-card${site.href ? '' : ' is-current'}" ${attributes}>
-      <span class="group-site-icon" aria-hidden="true">${esc(site.icon)}</span>
+      <span class="group-site-icon">${site.icon}</span>
       <h3>${esc(site.name)}</h3>
       <p>${esc(site.text)}</p>
       ${site.href
-        ? `<span class="group-site-link">${esc(site.cta)}</span>`
-        : `<span class="group-site-link is-current">${esc(site.cta)}</span>`}
+        ? `<span class="group-site-link">${site.cta}</span>`
+        : `<span class="group-site-link is-current">${site.cta}</span>`}
     </${tag}>`;
   }).join('');
 

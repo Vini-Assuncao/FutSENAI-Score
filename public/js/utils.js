@@ -44,3 +44,8 @@ export function outcomeLabel(match) {
 export function jsonOptions(method, payload) {
   return { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) };
 }
+
+// Ícone do Google (Material Symbols): o nome do símbolo vira o texto da fonte.
+export function miIcon(name, extraClass = '') {
+  return `<span class="material-symbols-outlined ${extraClass}" aria-hidden="true">${name}</span>`;
+}

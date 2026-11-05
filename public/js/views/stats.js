@@ -2,7 +2,7 @@
 import { avatar, rivalryPanel, scopeFilterHtml, statCard, statsSortHeader } from '../components.js';
 import { pageContent, state } from '../state.js';
 import { setLoading } from '../ui.js';
-import { esc, initials, shortDate } from '../utils.js';
+import { esc, initials, shortDate, miIcon } from '../utils.js';
 
 import { api } from '../api.js';
 
@@ -29,7 +29,7 @@ function joinNames(names) {
 // Ícone do marco: ícone padrão, foto de um jogador, duas fotos em diagonal ou as iniciais dos empatados.
 function recordIconMarkup(item) {
   const holders = item.holders || [];
-  if (!holders.length) return `<span class="record-icon" aria-hidden="true">${esc(item.icon)}</span>`;
+  if (!holders.length) return `<span class="record-icon" aria-hidden="true">${miIcon(item.icon)}</span>`;
   if (holders.length === 1) {
     const src = holderPhotoSrc(holders[0]);
     return `<span class="record-icon record-player-icon" aria-hidden="true">${src ? `<img src="${esc(src)}" alt="">` : esc(initials(holders[0].playerName))}</span>`;
@@ -122,7 +122,7 @@ export function renderStatsContent() {
     .sort((left, right) => right.assists - left.assists || right.goals - left.goals || right.wins - left.wins || left.name.localeCompare(right.name, 'pt-BR', { sensitivity: 'base' }))[0];
   pageContent.innerHTML = `<section class="page-heading"><div><div class="eyebrow">NÚMEROS DO JOGO</div><h1>Estatísticas<span style="color:var(--red)">.</span></h1><p>Veja a evolução da turma, quem decide e como cada jogador contribui.</p></div><div class="heading-actions"><button class="btn btn-secondary" data-action="go-matches">Ver partidas</button></div></section>
     <div class="scope-filter-row">${scopeFilterHtml()}</div>
-    <section class="stats-grid">${statCard('Partidas', a.matches, '⚑', 'De acordo com o filtro')}${statCard('Gols', a.goals, '⚽︎', 'Todos os gols desses jogos')}${statCard('Média por partida', a.averageGoals, '↗', 'Gols por jogo considerado')}${statCard('Empates', a.draws, '＝', 'Jogos que terminaram iguais')}</section>
+    <section class="stats-grid">${statCard('Partidas', a.matches, miIcon('scoreboard'), 'De acordo com o filtro')}${statCard('Gols', a.goals, miIcon('sports_soccer'), 'Todos os gols desses jogos')}${statCard('Média por partida', a.averageGoals, miIcon('trending_up'), 'Gols por jogo considerado')}${statCard('Empates', a.draws, miIcon('drag_handle'), 'Jogos que terminaram iguais')}</section>
     ${rivalryPanel(a.secondYearRivalry)}
     <div class="stats-page-grid"><article class="panel"><div class="panel-head"><div><h2 class="panel-title">Ranking dos jogadores</h2><div class="panel-subtitle">Gols, assistências e desempenho, clique nas colunas para ordenar</div></div></div><div class="table-wrap"><table class="stats-table"><colgroup><col class="stats-player-column"><col span="2" class="stats-number-column"><col class="stats-assists-column"><col span="3" class="stats-number-column"></colgroup><thead><tr><th>Jogador</th>${statsSortHeader('Jogos', 'matches_played')}${statsSortHeader('Gols', 'goals')}${statsSortHeader('Assistências', 'assists')}${statsSortHeader('Vitórias', 'wins')}${statsSortHeader('Derrotas', 'losses')}${statsSortHeader('G/A', 'ga')}</tr></thead><tbody>${tableRows}</tbody></table></div></article>
     <div><article class="stat-hero top-scorer-hero"><div class="stat-hero-copy"><div class="eyebrow">ARTILHEIRO</div><strong>${top ? `${esc(top.name)} - ${top.goals} ${top.goals === 1 ? 'gol' : 'gols'}` : '—'}</strong><p>${top ? `${esc(top.name)} lidera a artilharia.` : 'Quando houver gols nesse recorte, o destaque aparece aqui.'}</p></div>${top ? avatar(top, 'stat-hero-avatar') : ''}</article><article class="stat-hero top-waiter-hero"><div class="stat-hero-copy"><div class="eyebrow">GARÇOM</div><strong>${topWaiter ? `${esc(topWaiter.name)} - ${topWaiter.assists} ${topWaiter.assists === 1 ? 'assistência' : 'assistências'}` : '—'}</strong><p>${topWaiter ? `${esc(topWaiter.name)} lidera as assistências.` : 'Quando houver assistências nesse recorte, o destaque aparece aqui.'}</p></div>${topWaiter ? avatar(topWaiter, 'stat-hero-avatar') : ''}</article>${recordsPanel(result.records)}</div></div>

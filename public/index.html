@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,add_circle,apps,arrow_back,arrow_downward,arrow_forward,arrow_outward,arrow_range,arrow_upward,autorenew,balance,calendar_add_on,cancel,casino,check_circle,chess_pawn,crown,data_thresholding,defending,drag_handle,dribbling,edit,editor_choice,emoji_food_beverage,error,event_upcoming,exercise,functions,leaderboard,menu,newspaper,open_in_new,pace,passing,person_add,physical,playing_cards,remove,scoreboard,search,shield,shooting,speed,sports_soccer,star,star_half,swap_horiz,swords,sync,target,today,trending_up,visibility,warning" />
   <link rel="stylesheet" href="css/styles.css?v=20261030-sidebar-width-v1">
 </head>
 <body>
@@ -26,21 +27,21 @@
       <span class="admin-mode-notice" id="adminModeNotice" role="status" hidden>MODO ADM ATIVO</span>
       <div class="side-label">MENU PRINCIPAL</div>
       <nav class="main-nav" aria-label="Navegação principal">
-        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">▦</span><span>Visão geral</span></button>
-        <button class="nav-item" data-view="players"><span class="nav-icon">♟</span><span>Jogadores</span><span class="nav-count" id="navPlayerCount">0</span></button>
-        <button class="nav-item" data-view="compare"><span class="nav-icon">⚖</span><span>Comparar</span></button>
-        <button class="nav-item" data-view="matches"><span class="nav-icon">⚑</span><span>Partidas</span></button>
-        <button class="nav-item" data-view="stats"><span class="nav-icon">↗</span><span>Estatísticas</span></button>
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon material-symbols-outlined" aria-hidden="true">apps</span><span>Visão geral</span></button>
+        <button class="nav-item" data-view="players"><span class="nav-icon material-symbols-outlined" aria-hidden="true">chess_pawn</span><span>Jogadores</span><span class="nav-count" id="navPlayerCount">0</span></button>
+        <button class="nav-item" data-view="compare"><span class="nav-icon material-symbols-outlined" aria-hidden="true">balance</span><span>Comparar</span></button>
+        <button class="nav-item" data-view="matches"><span class="nav-icon material-symbols-outlined" aria-hidden="true">scoreboard</span><span>Partidas</span></button>
+        <button class="nav-item" data-view="stats"><span class="nav-icon material-symbols-outlined" aria-hidden="true">data_thresholding</span><span>Estatísticas</span></button>
       </nav>
       <div class="sidebar-bottom">
         <section class="sidebar-news-card" aria-label="Carrossel das últimas notícias do Jornal FutSENAI">
-          <a class="sidebar-news-story" id="latestJournalNews" href="https://futsenaijornal.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Ler a notícia do Jornal FutSENAI">
+          <a class="sidebar-news-story" id="latestJournalNews" href="https://pietro-guedes.github.io/FutSenai-Jornal/" target="_blank" rel="noopener noreferrer" aria-label="Ler a notícia do Jornal FutSENAI">
             <img class="sidebar-news-cover" id="sidebarJournalCover" src="assets/jornal-capa-padrao.svg" alt="Capa ilustrativa da notícia do Jornal FutSENAI" loading="lazy">
             <div class="sidebar-news-kicker"><span id="sidebarJournalKicker">ÚLTIMA DO JORNAL</span><span class="sidebar-news-fresh" id="sidebarJournalFresh" hidden>NOTÍCIA FRESCA</span></div>
             <div class="sidebar-news-meta"><span class="sidebar-news-tag" id="sidebarJournalTag">BOMBA</span><time id="sidebarJournalDate" datetime="2026-10-21T16:23:53.329Z">21 out. 2026</time></div>
             <h2 class="sidebar-news-title" id="sidebarJournalTitle">FIM DO TABU E POLÍCIA NA QUADRA! 3º Ano vence por 3x2 em jogo Clandestino!</h2>
             <p class="sidebar-news-excerpt" id="sidebarJournalExcerpt">O MUNDO DO FUTEBOL DO SENAI ESTÁ EM CHOQUE! Em uma tarde manchada por irregularidades, o 3º Ano quebrou um tabu histórico de infinitas derrotas.</p>
-            <span class="sidebar-news-cta">Ler notícia no Jornal FutSENAI <span aria-hidden="true">↗</span></span>
+            <span class="sidebar-news-cta">Ler notícia no Jornal FutSENAI <span class="material-symbols-outlined sidebar-news-arrow" aria-hidden="true">arrow_outward</span></span>
           </a>
           <div class="sidebar-news-controls" id="sidebarJournalControls" aria-label="Navegação das notícias" hidden>
             <button class="sidebar-news-nav" id="sidebarJournalPrev" type="button" aria-label="Notícia anterior">‹</button>
@@ -53,13 +54,13 @@
 
     <main class="main-area">
       <header class="topbar">
-        <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">☰</button>
+        <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false"><span class="material-symbols-outlined" aria-hidden="true">menu</span></button>
         <a class="mobile-brand" href="#dashboard" aria-label="FutSENAI Score - início">
           <span class="brand-mark"><img src="assets/logo_futsenai_branca.png" alt=""></span>
           <strong>Fut<span>SENAI</span> Score<span class="anti-resenha-indicator" title="Modo anti-resenha" aria-label="Modo anti-resenha" hidden></span></strong>
         </a>
-        <div class="breadcrumb"><div class="breadcrumb-path" id="breadcrumbPath"><button type="button" class="crumb-link" data-crumb-view="dashboard">FutSENAI Score</button><span class="crumb-slash" aria-hidden="true">/</span><strong aria-current="page">Visão geral</strong></div><a class="fresh-news-ticker" id="freshNewsTicker" href="https://futsenaijornal.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Notícia fresca! Abrir Notícias FutSENAI" hidden><span class="fresh-news-ticker-label">NOTÍCIA FRESCA!</span><div class="fresh-news-ticker-viewport"><div class="fresh-news-ticker-track"><span id="freshNewsTickerText"></span><span id="freshNewsTickerRepeat" aria-hidden="true"></span></div></div></a></div>
-        <div class="topbar-actions"><div class="today-chip"><span>◷</span><span id="todayLabel">Hoje</span></div></div>
+        <div class="breadcrumb"><div class="breadcrumb-path" id="breadcrumbPath"><button type="button" class="crumb-link" data-crumb-view="dashboard">FutSENAI Score</button><span class="crumb-slash" aria-hidden="true">/</span><strong aria-current="page">Visão geral</strong></div><a class="fresh-news-ticker" id="freshNewsTicker" href="https://pietro-guedes.github.io/FutSenai-Jornal/" target="_blank" rel="noopener noreferrer" aria-label="Notícia fresca! Abrir Notícias FutSENAI" hidden><span class="fresh-news-ticker-label">NOTÍCIA FRESCA!</span><div class="fresh-news-ticker-viewport"><div class="fresh-news-ticker-track"><span id="freshNewsTickerText"></span><span id="freshNewsTickerRepeat" aria-hidden="true"></span></div></div></a></div>
+        <div class="topbar-actions"><div class="today-chip"><span class="material-symbols-outlined" aria-hidden="true">today</span><span id="todayLabel">Hoje</span></div></div>
       </header>
 
       <div class="page-content" id="pageContent" tabindex="-1">

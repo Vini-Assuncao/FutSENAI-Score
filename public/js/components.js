@@ -1,6 +1,6 @@
 // components.js
 import { state } from './state.js';
-import { esc, initials, numericDate, playerOverall, shortDate } from './utils.js';
+import { esc, initials, numericDate, playerOverall, shortDate, miIcon } from './utils.js';
 
 export function overallMarkup(overall, compact = false) {
   const value = Number.isInteger(overall) ? overall : '—';
@@ -44,33 +44,33 @@ export function scorerRow(player, index) {
 export function playerCard(player) {
   const archived = !player.is_active;
   const overall = playerOverall(player.name);
-  return `<article class="player-card" data-action="open-player-profile" data-id="${player.id}" role="group" tabindex="0" aria-label="Abrir detalhes de ${esc(player.name)}"><div class="player-card-head">${avatar(player)}<div class="player-card-name"><h3><button type="button" class="player-profile-link" data-action="open-player-profile" data-id="${player.id}">${esc(player.name)}</button>${archived ? '<span class="archived-label">ARQUIVADO</span>' : ''}</h3><p>${player.matches_played} ${player.matches_played === 1 ? 'partida disputada' : 'partidas disputadas'}</p>${overallMarkup(overall, true)}</div></div><div class="player-mini-stats"><div><strong>${player.matches_played}</strong><span>PARTIDAS</span></div><div><strong>${player.goals}</strong><span>GOLS</span></div><div><strong>${player.wins}</strong><span>VITÓRIAS</span></div></div><div class="player-card-actions"><button class="btn btn-secondary btn-small" data-action="edit-player" data-id="${player.id}">✎ Editar</button>${archived ? `<button class="btn btn-secondary btn-small" data-action="reactivate-player" data-id="${player.id}">Reativar</button>` : `<button class="btn btn-danger btn-small" data-action="archive-player" data-id="${player.id}">Arquivar</button>`}</div></article>`;
+  return `<article class="player-card" data-action="open-player-profile" data-id="${player.id}" role="group" tabindex="0" aria-label="Abrir detalhes de ${esc(player.name)}"><div class="player-card-head">${avatar(player)}<div class="player-card-name"><h3><button type="button" class="player-profile-link" data-action="open-player-profile" data-id="${player.id}">${esc(player.name)}</button>${archived ? '<span class="archived-label">ARQUIVADO</span>' : ''}</h3><p>${player.matches_played} ${player.matches_played === 1 ? 'partida disputada' : 'partidas disputadas'}</p>${overallMarkup(overall, true)}</div></div><div class="player-mini-stats"><div><strong>${player.matches_played}</strong><span>PARTIDAS</span></div><div><strong>${player.goals}</strong><span>GOLS</span></div><div><strong>${player.wins}</strong><span>VITÓRIAS</span></div></div><div class="player-card-actions"><button class="btn btn-secondary btn-small" data-action="edit-player" data-id="${player.id}">${miIcon('edit')} Editar</button>${archived ? `<button class="btn btn-secondary btn-small" data-action="reactivate-player" data-id="${player.id}">Reativar</button>` : `<button class="btn btn-danger btn-small" data-action="archive-player" data-id="${player.id}">Arquivar</button>`}</div></article>`;
 }
 export function matchCard(match) {
   const interclass = match.opponent_type === 'second_year';
   const players = interclass ? `${match.players_a} ${match.players_a === 1 ? 'jogador' : 'jogadores'} do 3º A` : `${match.total_players} ${match.total_players === 1 ? 'jogador' : 'jogadores'}`;
   const teamA = interclass ? '3º A' : 'Time Vermelho';
   const teamB = interclass ? '2º Ano' : 'Time Branco';
-  return `<article class="match-card ${interclass ? 'match-card-interclass' : ''}" data-action="open-match" data-id="${match.id}" tabindex="0" aria-label="Abrir detalhes da partida de ${shortDate(match.played_on, true)}"><div class="match-card-top"><span><strong>${shortDate(match.played_on, true)}</strong> · Quadra <em class="match-kind ${interclass ? 'interclass' : ''}">${interclass ? 'INTERCLASSE' : 'ENTRE NÓS'}</em></span><span>${players}</span></div><div class="match-card-scoreboard"><div class="match-team-box"><div class="team-large-icon ${teamIconClass(match, 'A')}">●</div><strong title="${esc(teamA)}">${esc(teamA)}</strong><small>${match.players_a} ${match.players_a === 1 ? 'jogador' : 'jogadores'}</small></div><div class="scoreboard-score">${match.score_a}<span>:</span>${match.score_b}</div><div class="match-team-box"><div class="team-large-icon ${teamIconClass(match, 'B')}">●</div><strong title="${esc(teamB)}">${esc(teamB)}</strong><small>${interclass ? 'Placar total do adversário' : `${match.players_b} ${match.players_b === 1 ? 'jogador' : 'jogadores'}`}</small></div></div><div class="match-card-bottom"><span class="participants-label"><b>${match.total_goals}</b> gols · ${players}</span><div class="match-card-actions"><button data-action="open-match" data-id="${match.id}">Detalhes ↗</button><button data-action="delete-match" data-id="${match.id}">Excluir</button></div></div></article>`;
+  return `<article class="match-card ${interclass ? 'match-card-interclass' : ''}" data-action="open-match" data-id="${match.id}" tabindex="0" aria-label="Abrir detalhes da partida de ${shortDate(match.played_on, true)}"><div class="match-card-top"><span><strong>${shortDate(match.played_on, true)}</strong> · Quadra <em class="match-kind ${interclass ? 'interclass' : ''}">${interclass ? 'INTERCLASSE' : 'ENTRE NÓS'}</em></span><span>${players}</span></div><div class="match-card-scoreboard"><div class="match-team-box"><div class="team-large-icon ${teamIconClass(match, 'A')}">●</div><strong title="${esc(teamA)}">${esc(teamA)}</strong><small>${match.players_a} ${match.players_a === 1 ? 'jogador' : 'jogadores'}</small></div><div class="scoreboard-score">${match.score_a}<span>:</span>${match.score_b}</div><div class="match-team-box"><div class="team-large-icon ${teamIconClass(match, 'B')}">●</div><strong title="${esc(teamB)}">${esc(teamB)}</strong><small>${interclass ? 'Placar total do adversário' : `${match.players_b} ${match.players_b === 1 ? 'jogador' : 'jogadores'}`}</small></div></div><div class="match-card-bottom"><span class="participants-label"><b>${match.total_goals}</b> gols · ${players}</span><div class="match-card-actions"><button data-action="open-match" data-id="${match.id}">Detalhes ${miIcon('arrow_outward')}</button><button data-action="delete-match" data-id="${match.id}">Excluir</button></div></div></article>`;
 }
 export function playerModeStats(title, subtitle, playerStats) {
   const s = playerStats || { matches_played: 0, goals: 0, assists: 0, wins: 0, draws: 0, losses: 0, win_rate: 0 };
   const tiles = [
-    ['⚑', 'Partidas', s.matches_played, 'tile-orange'],
-    ['⚽︎', 'Gols', s.goals, 'tile-red'],
-    ['♕', 'Assistências', s.assists, 'tile-blue'],
-    ['✦', 'Vitórias', s.wins, 'tile-green'],
-    ['＝', 'Empates', s.draws, 'tile-grey'],
-    ['✖', 'Derrotas', s.losses, 'tile-loss']
+    ['scoreboard', 'Partidas', s.matches_played, 'tile-orange'],
+    ['sports_soccer', 'Gols', s.goals, 'tile-red'],
+    ['crown', 'Assistências', s.assists, 'tile-blue'],
+    ['editor_choice', 'Vitórias', s.wins, 'tile-green'],
+    ['drag_handle', 'Empates', s.draws, 'tile-grey'],
+    ['cancel', 'Derrotas', s.losses, 'tile-loss']
   ];
   return `<section class="panel player-mode-panel">
     <div class="panel-head"><div><h2 class="panel-title">${title}</h2><div class="panel-subtitle">${subtitle}</div></div></div>
-    <div class="pmp-body"><div class="pmp-tiles">${tiles.map(([icon, label, value, cls]) => `<div class="pmp-tile ${cls}"><span class="pmp-icon" aria-hidden="true">${icon}</span><strong>${value}</strong><span>${label}</span></div>`).join('')}</div></div>
+    <div class="pmp-body"><div class="pmp-tiles">${tiles.map(([icon, label, value, cls]) => `<div class="pmp-tile ${cls}"><span class="pmp-icon">${miIcon(icon)}</span><strong>${value}</strong><span>${label}</span></div>`).join('')}</div></div>
   </section>`;
 }
 export function statsSortHeader(label, key) {
   const sorted = state.statsSort === key;
   const direction = sorted ? state.statsSortDirection : 'desc';
-  const indicator = sorted ? (direction === 'desc' ? ' ↓' : ' ↑') : '';
+  const indicator = sorted ? ' ' + miIcon(direction === 'desc' ? 'arrow_downward' : 'arrow_upward', 'sort-icon') : '';
   return `<th aria-sort="${sorted ? (direction === 'desc' ? 'descending' : 'ascending') : 'none'}"><button class="stats-sort-button${sorted ? ' active' : ''}" data-stats-sort="${key}" aria-label="Ordenar por ${label.toLowerCase()}${sorted ? ` em ordem ${direction === 'desc' ? 'decrescente' : 'crescente'}` : ''}">${label}${indicator}</button></th>`;
 }

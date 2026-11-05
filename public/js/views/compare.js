@@ -2,7 +2,7 @@
 import { avatar, teamIconClass } from '../components.js';
 import { pageContent, state } from '../state.js';
 import { setLoading } from '../ui.js';
-import { esc, shortDate } from '../utils.js';
+import { esc, shortDate, miIcon } from '../utils.js';
 import { api } from '../api.js';
 import { getUncommonCard, renderCardHtml, prepareCardAssets } from '../cards/futsenai-cards.js';
 
@@ -12,12 +12,12 @@ const SCOPE_LABELS = {
 };
 
 const ATTRIBUTES = [
-  ['pace', 'Velocidade', '➤'],
-  ['shooting', 'Chute', '◎'],
-  ['passing', 'Passe', '⇆'],
-  ['dribbling', 'Drible', '⟳'],
-  ['defending', 'Defesa', '▣'],
-  ['physical', 'Físico', '◆']
+  ['pace', 'Velocidade', 'speed'],
+  ['shooting', 'Chute', 'target'],
+  ['passing', 'Passe', 'swap_horiz'],
+  ['dribbling', 'Drible', 'sync'],
+  ['defending', 'Defesa', 'shield'],
+  ['physical', 'Físico', 'exercise']
 ];
 
 const average = values => {
@@ -33,13 +33,13 @@ const PERFORMANCE_GROUP = {
   title: 'Desempenho no recorte',
   scores: true,
   rows: [
-    { label: '⚑ Partidas', get: ({ stats }) => stats.matches_played, better: 'higher' },
-    { label: '✦ Vitórias', get: ({ stats }) => stats.wins, better: 'higher' },
-    { label: '＝ Empates', get: ({ stats }) => stats.draws, better: null, hideWhenZero: true },
-    { label: '⚔︎ Confrontos diretos', get: ({ directWins }) => directWins, better: 'higher' },
-    { label: '⚽︎ Gols', get: ({ stats }) => stats.goals, better: 'higher' },
-    { label: '♕ Assistências', get: ({ stats }) => stats.assists, better: 'higher' },
-    { label: '✚ Participações em gol', get: ({ stats }) => stats.ga, better: 'higher' }
+    { label: 'Partidas', icon: 'scoreboard', get: ({ stats }) => stats.matches_played, better: 'higher' },
+    { label: 'Vitórias', icon: 'editor_choice', get: ({ stats }) => stats.wins, better: 'higher' },
+    { label: 'Empates', icon: 'drag_handle', get: ({ stats }) => stats.draws, better: null, hideWhenZero: true },
+    { label: 'Confrontos diretos', icon: 'swords', get: ({ directWins }) => directWins, better: 'higher' },
+    { label: 'Gols', icon: 'sports_soccer', get: ({ stats }) => stats.goals, better: 'higher' },
+    { label: 'Assistências', icon: 'crown', get: ({ stats }) => stats.assists, better: 'higher' },
+    { label: 'Participações em gol', icon: 'add_circle', get: ({ stats }) => stats.ga, better: 'higher' }
   ]
 };
 
@@ -48,10 +48,10 @@ const CARD_GROUP = {
   subtitle: 'Overall e atributos da versão Incomum de cada jogador',
   scores: false,
   rows: [
-    { label: '◈ Overall', get: ({ card }) => card?.overall ?? null, better: 'higher' },
-    ...ATTRIBUTES.map(([key, label, symbol]) => ({ label: `${symbol} ${label}`, get: ({ card }) => card?.[key] ?? null, better: 'higher' })),
+    { label: 'Overall', icon: 'star_half', get: ({ card }) => card?.overall ?? null, better: 'higher' },
+    ...ATTRIBUTES.map(([key, label, icon]) => ({ label, icon, get: ({ card }) => card?.[key] ?? null, better: 'higher' })),
     {
-      label: '∑ Média dos atributos',
+      label: 'Média dos atributos', icon: 'functions',
       get: ({ card }) => card ? average(ATTRIBUTES.map(([key]) => card[key])) : null,
       better: 'higher',
       format: v => v.toFixed(1)
@@ -78,9 +78,9 @@ function statRow(definition, sideA, sideB, scoreBoard) {
   const winner = winnerOf(valueA, valueB, definition.better);
   if (scoreBoard && winner && winner !== 'tie') scoreBoard[winner]++;
   const cellClass = side => winner === side ? ' is-best' : '';
-  const mark = side => winner === side ? '<span class="best-mark" aria-label="Melhor nesta estatística">★</span>' : '';
+  const mark = side => winner === side ? `${miIcon('star', 'best-mark')}` : '';
   return `<tr>
-    <th scope="row">${esc(definition.label)}</th>
+    <th scope="row">${definition.icon ? miIcon(definition.icon) + ' ' : ''}${esc(definition.label)}</th>
     <td class="num${cellClass('a')}">${mark('a')}${displayValue(valueA, definition.format)}</td>
     <td class="num${cellClass('b')}">${mark('b')}${displayValue(valueB, definition.format)}</td>
   </tr>`;
@@ -144,7 +144,7 @@ function duelCard(match, playerA, playerB) {
   const playerLine = (player, side) => `<div class="duel-player is-${side.result.toLowerCase()}">
       <span class="duel-name">${esc(player.name)}</span>
       <em class="result-${side.result.toLowerCase()}">${resultLabel(side.result)}</em>
-      <small>⚽︎ ${side.goals} · ♕ ${side.assists}</small>
+      <small>${miIcon('sports_soccer')} ${side.goals} · ${miIcon('crown')} ${side.assists}</small>
     </div>`;
   return `<article class="duel-card ${match.together ? 'is-together' : 'is-opposed'}" data-action="open-match" data-id="${match.id}" tabindex="0" aria-label="Abrir súmula da partida de ${shortDate(match.played_on, true)}">
     <div class="duel-card-top">
@@ -160,7 +160,7 @@ function duelCard(match, playerA, playerB) {
       ${playerLine(playerA, match.a)}
       ${playerLine(playerB, match.b)}
     </div>
-    <div class="duel-card-foot">${duelWinnerBadge(match, playerA, playerB)}<span class="duel-open">Ver súmula ↗</span></div>
+    <div class="duel-card-foot">${duelWinnerBadge(match, playerA, playerB)}<span class="duel-open">Ver súmula ${miIcon('arrow_outward')}</span></div>
   </article>`;
 }
 
@@ -299,7 +299,7 @@ export async function renderCompare() {
         <div><div class="eyebrow">CONFRONTO ENTRE JOGADORES</div><h1>Comparar<span style="color:var(--red)">.</span></h1><p>Coloque dois jogadores frente a frente, no 3º A ou contra o 2º Ano.</p></div>
       </section>
       ${pickerHtml(a, b)}
-      <div class="empty-state compare-empty"><div class="empty-symbol">⚖</div><h3>${esc(hint)}</h3></div>`;
+      <div class="empty-state compare-empty"><div class="empty-symbol">${miIcon('balance')}</div><h3>${esc(hint)}</h3></div>`;
     return;
   }
 
