@@ -86,14 +86,14 @@ const GROUP_SITES = [
     icon: miIcon('newspaper'),
     text: 'A redação da turma: notícias das partidas com capa, data e tags, reunidas em um carrossel e num jornal próprio.',
     href: 'https://pietro-guedes.github.io/FutSenai-Jornal/',
-    cta: `Ler o jornal ${miIcon('open_in_new')}`
+    cta: 'Ler o jornal'
   },
   {
     name: 'FutSENAI Cards',
     icon: miIcon('playing_cards'),
     text: 'O jogo de cartas dos jogadores, com seis raridades, overall e a carta Incomum de cada um.',
     href: 'https://fut-senai-cards.vercel.app/',
-    cta: `Abrir os cards ${miIcon('open_in_new')}`
+    cta: 'Abrir os cards'
   }
 ];
 
