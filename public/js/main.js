@@ -9,6 +9,7 @@ import { api } from './api.js';
 import { renderDashboard } from './views/dashboard.js';
 import { esc } from './utils.js';
 import { startPlayerCards } from './cards/futsenai-cards.js';
+import './effects.js';
 
 async function applyRouteFromLocation() {
   let route = parseRoute();
