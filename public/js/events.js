@@ -6,6 +6,7 @@ import { openGoalModal } from './modals/goal-form.js';
 import { openPlayerImagePreview } from './modals/image-preview.js';
 import { clearTeamDraw, openMatchModal, updateTeamCounts } from './modals/match-form.js';
 import { openPlayerModal } from './modals/player-form.js';
+import { closeMatchCalendar, isMatchCalendarOpen, openMatchCalendar, shiftMatchCalendar } from './calendar.js';
 import { navigate, renderCurrent } from './router.js';
 import { canEdit, modalRoot, saveAntiResenhaPreference, state } from './state.js';
 import { closeModal, modal, setSidebarOpen, toast, updateChrome } from './ui.js';
@@ -24,6 +25,20 @@ export let brandClickTimer = null;
 // Registra os ouvintes globais (cliques delegados, teclado, formulários e busca).
 export function bindGlobalEvents() {
   document.addEventListener('click', async event => {
+    const calendarToggle = event.target.closest('#todayCalendarButton');
+    if (calendarToggle) {
+      event.preventDefault();
+      if (isMatchCalendarOpen()) closeMatchCalendar();
+      else {
+        try { await openMatchCalendar(); }
+        catch (error) { closeMatchCalendar(); toast(error.message, 'error'); }
+      }
+      return;
+    }
+    if (event.target.closest('[data-calendar-close]')) { closeMatchCalendar(); return; }
+    const monthButton = event.target.closest('[data-calendar-month]');
+    if (monthButton) { shiftMatchCalendar(monthButton.dataset.calendarMonth === 'previous' ? -1 : 1); return; }
+    if (isMatchCalendarOpen() && !event.target.closest('#matchCalendar')) closeMatchCalendar();
     const brand = event.target.closest('.brand, .mobile-brand');
     if (brand) {
       event.preventDefault();
@@ -103,7 +118,7 @@ export function bindGlobalEvents() {
         openMatchModal(!canEdit());
       }
       else if (action === 'new-goal') openGoalModal();
-      else if (action === 'open-match') { state.previousView = state.view; state.matchDetail = null; state.selectedMatch = id; state.view = 'matchDetail'; updateChrome(); await renderMatchDetail(); }
+      else if (action === 'open-match') { closeMatchCalendar(); state.previousView = state.view; state.matchDetail = null; state.selectedMatch = id; state.view = 'matchDetail'; updateChrome(); await renderMatchDetail(); }
       else if (action === 'delete-match') await deleteMatch(id);
       else if (action === 'delete-goal') await deleteGoal(Number(button.dataset.matchId), id);
       else if (action === 'delete-assist') await deleteAssist(Number(button.dataset.matchId), id);
@@ -140,6 +155,11 @@ export function bindGlobalEvents() {
   });
 
   document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && isMatchCalendarOpen()) {
+      closeMatchCalendar();
+      document.getElementById('todayCalendarButton')?.focus();
+      return;
+    }
     if (event.key === 'Escape' && modalRoot.querySelector('[data-player-image-lightbox]')) {
       closeModal();
       return;
