@@ -1,7 +1,6 @@
 // effects.js — microinterações visuais (contagem de números, revelação ao rolar, sombra da barra superior).
 // Só mexe em classes e textos já renderizados; não altera dados nem rotas.
 const pageContent = document.getElementById('pageContent');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Conta de 0 até o valor mostrado nos cards de números (aceita inteiros e decimais com vírgula ou ponto).
 function countUp(el) {
@@ -38,12 +37,12 @@ const revealObserver = 'IntersectionObserver' in window
 
 function enhance() {
   if (!pageContent) return;
-  if (!reduceMotion) pageContent.querySelectorAll('.stat-value').forEach(countUp);
+  pageContent.querySelectorAll('.stat-value').forEach(countUp);
   // Seções longas (equipe, painéis) aparecem suavemente ao rolar.
   pageContent.querySelectorAll('.team-hero, .group-sites, .team-footer, .stats-page-grid > .panel').forEach(el => {
     if (el.dataset.reveal) return;
     el.dataset.reveal = '1';
-    if (!revealObserver || reduceMotion) return;
+    if (!revealObserver) return;
     el.classList.add('js-reveal');
     revealObserver.observe(el);
   });
