@@ -14,6 +14,7 @@ export let journalCurrentIndex = 0;
 export let freshJournalNews = null;
 export let journalRotationTimer = null;
 export let journalTransitionTimer = null;
+const MAX_JOURNAL_NEWS = 4;
 let journalRefreshTimer = null;
 let journalLoadInProgress = false;
 let lastJournalLoadAt = 0;
@@ -143,7 +144,7 @@ export function showJournalNews(nextIndex) {
 export function renderLatestJournalNews(items) {
   const incoming = (Array.isArray(items) ? items : [items])
     .filter(item => item && typeof item === 'object' && typeof item.title === 'string' && item.title.trim());
-  const availableNews = incoming.length ? incoming : fallbackJournalNewsFromMarkup();
+  const availableNews = (incoming.length ? incoming : fallbackJournalNewsFromMarkup()).slice(0, MAX_JOURNAL_NEWS);
   const allFreshNews = availableNews
     .filter(item => isFreshJournalNews(item.createdAt))
     .sort((left, right) => Date.parse(right.createdAt) - Date.parse(left.createdAt));
