@@ -515,7 +515,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .brand-copy small{white-space:nowrap;font-size:9px;letter-spacing:1.4px;color:var(--muted-2);margin-top:5px}
 .side-label{font-size:10px;letter-spacing:1.5px;color:var(--muted-2);padding:0 12px;margin-bottom:10px}
 .main-nav{gap:4px}
-.nav-item{padding:12px 14px;border-radius:12px;font-size:14px;color:var(--muted);transition:background .18s var(--ease),color .18s var(--ease),transform .18s var(--ease)}
+.nav-item{padding:10px 14px;border-radius:12px;font-size:14px;color:var(--muted);transition:background .18s var(--ease),color .18s var(--ease),transform .18s var(--ease)}
 .nav-item:hover{background:#fbeff2;color:var(--red);transform:translateX(2px)}
 .nav-item.active{background:linear-gradient(90deg,var(--red-soft),#fff7f9);color:var(--red);box-shadow:inset 0 0 0 1px var(--red-line);transform:none}
 .nav-item.active:before{left:-16px;height:24px;width:4px;border-radius:0 5px 5px 0}
@@ -543,7 +543,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 @media(max-height:700px) and (min-width:761px){
   .sidebar{max-height:100vh}
   .brand{padding-bottom:20px}
-  .nav-item{padding-top:9px;padding-bottom:9px}
+  .nav-item{padding-top:8px;padding-bottom:8px}
   .sidebar-news-card{padding:7px 8px}
   .sidebar-news-cover{height:58px;margin-bottom:5px}
   .sidebar-news-kicker{margin-bottom:6px}
