@@ -117,37 +117,163 @@
       .map(player => playerStats(player, scope, data));
   }
 
+  function playerAchievements(appearances) {
+    const unlocked = new Map();
+    const unlock = (id, appearance, detail) => {
+      if (!unlocked.has(id) && appearance) unlocked.set(id, { appearance, detail });
+    };
+
+    const first = appearances[0] || null;
+    unlock('debut', first, 'Sua trajetória começou dentro de quadra.');
+    unlock('interclass_debut', appearances.find(row => row.opponent_type === 'second_year'), 'Estreou nos duelos contra o 2º Ano.');
+    unlock('first_win', appearances.find(row => row.result === 'win'), 'Conquistou a primeira vitória.');
+    unlock('first_goal', appearances.find(row => row.goals > 0), 'Saiu do zero e marcou pela primeira vez.');
+    unlock('first_assist', appearances.find(row => row.assists > 0), 'Deu o primeiro passe para gol.');
+    unlock('hat_trick', appearances.find(row => row.goals >= 3), 'Três gols na mesma partida.');
+    unlock('poker', appearances.find(row => row.goals >= 4), 'Quatro gols em uma só partida.');
+    unlock('complete_game', appearances.find(row => row.goals > 0 && row.assists > 0), 'Marcou e deu assistência na mesma partida.');
+
+    [5, 10, 20].forEach(target => {
+      unlock(`matches_${target}`, appearances[target - 1], `Chegou à marca de ${target} partidas disputadas.`);
+    });
+
+    let runningGoals = 0;
+    appearances.forEach(appearance => {
+      runningGoals += appearance.goals;
+      [5, 10, 20].forEach(target => {
+        if (runningGoals >= target) unlock(`goals_${target}`, appearance, `Alcançou ${target} gols na carreira.`);
+      });
+    });
+
+    let currentStreak = 0;
+    let longestStreak = 0;
+    appearances.forEach(appearance => {
+      currentStreak = appearance.result === 'win' ? currentStreak + 1 : 0;
+      if (currentStreak > longestStreak) {
+        longestStreak = currentStreak;
+      }
+      if (currentStreak >= 3) unlock('win_streak_3', appearance, 'Emendou três vitórias consecutivas.');
+    });
+
+    const totalGoals = appearances.reduce((sum, appearance) => sum + appearance.goals, 0);
+    const totalAssists = appearances.reduce((sum, appearance) => sum + appearance.assists, 0);
+    const definitions = [
+      { id: 'debut', group: 'Primeiros passos', title: 'Estreia', icon: 'sports_soccer', description: 'Dispute sua primeira partida.', progress: Math.min(appearances.length, 1), target: 1 },
+      { id: 'interclass_debut', group: 'Primeiros passos', title: 'Estreia no interclasse', icon: 'school', description: 'Entre em quadra pela primeira vez contra o 2º Ano.', progress: appearances.some(row => row.opponent_type === 'second_year') ? 1 : 0, target: 1 },
+      { id: 'first_win', group: 'Primeiros passos', title: 'Sentiu o gostinho da vitória', icon: 'emoji_events', description: 'Conquiste sua primeira vitória.', progress: appearances.some(row => row.result === 'win') ? 1 : 0, target: 1 },
+      { id: 'first_goal', group: 'Ofensiva', title: 'Primeiro gol', icon: 'sports_soccer', description: 'Marque seu primeiro gol.', progress: Math.min(totalGoals, 1), target: 1 },
+      { id: 'first_assist', group: 'Ofensiva', title: 'Garçom estreante', icon: 'handshake', description: 'Dê sua primeira assistência.', progress: Math.min(totalAssists, 1), target: 1 },
+      { id: 'complete_game', group: 'Ofensiva', title: 'Pacote completo', icon: 'bolt', description: 'Marque um gol e dê uma assistência na mesma partida.', progress: appearances.some(row => row.goals > 0 && row.assists > 0) ? 1 : 0, target: 1 },
+      { id: 'hat_trick', group: 'Ofensiva', title: 'Hat-trick', icon: 'local_fire_department', description: 'Marque três gols na mesma partida.', progress: Math.min(3, Math.max(0, ...appearances.map(row => row.goals))), target: 3 },
+      { id: 'poker', group: 'Ofensiva', title: 'Pôquer de gols', icon: 'whatshot', description: 'Marque quatro gols na mesma partida.', progress: Math.min(4, Math.max(0, ...appearances.map(row => row.goals))), target: 4 },
+      { id: 'goals_5', group: 'Ofensiva', title: 'Faro de gol', icon: 'target', description: 'Chegue a cinco gols na carreira.', progress: Math.min(totalGoals, 5), target: 5 },
+      { id: 'goals_10', group: 'Ofensiva', title: 'Artilheiro de respeito', icon: 'military_tech', description: 'Chegue a dez gols na carreira.', progress: Math.min(totalGoals, 10), target: 10 },
+      { id: 'matches_5', group: 'Consistência', title: 'Presença constante', icon: 'calendar_month', description: 'Dispute cinco partidas.', progress: Math.min(appearances.length, 5), target: 5 },
+      { id: 'matches_10', group: 'Consistência', title: 'Figura carimbada', icon: 'groups', description: 'Dispute dez partidas.', progress: Math.min(appearances.length, 10), target: 10 },
+      { id: 'win_streak_3', group: 'Consistência', title: 'Embalado', icon: 'trending_up', description: 'Conquiste três vitórias consecutivas.', progress: Math.min(longestStreak, 3), target: 3 }
+    ];
+
+    return definitions.map(definition => {
+      const earned = unlocked.get(definition.id);
+      return {
+        ...definition,
+        unlocked: Boolean(earned),
+        earned_on: earned?.appearance.played_on || null,
+        match_id: earned?.appearance.id || null,
+        detail: earned?.detail || null
+      };
+    });
+  }
+
+  function playerPersonalRecords(appearances) {
+    function bestAppearance(metric) {
+      let value = 0;
+      let tied = [];
+      appearances.forEach(appearance => {
+        const candidate = metric(appearance);
+        if (candidate > value) {
+          value = candidate;
+          tied = [appearance];
+        } else if (candidate > 0 && candidate === value) {
+          tied.push(appearance);
+        }
+      });
+      const latest = tied[tied.length - 1] || null;
+      return { value, match: latest, tied_matches: tied.length };
+    }
+
+    const goalsInMatch = bestAppearance(row => row.goals);
+    const assistsInMatch = bestAppearance(row => row.assists);
+    const contributionsInMatch = bestAppearance(row => row.goals + row.assists);
+
+    let currentStreak = 0;
+    let bestStreak = 0;
+    let bestStreakEnd = null;
+    let streakTies = 0;
+    appearances.forEach(appearance => {
+      currentStreak = appearance.result === 'win' ? currentStreak + 1 : 0;
+      if (currentStreak > bestStreak) {
+        bestStreak = currentStreak;
+        bestStreakEnd = appearance;
+        streakTies = 1;
+      } else if (currentStreak > 0 && currentStreak === bestStreak) {
+        bestStreakEnd = appearance;
+        streakTies++;
+      }
+    });
+
+    return {
+      goals_in_match: goalsInMatch,
+      assists_in_match: assistsInMatch,
+      contributions_in_match: contributionsInMatch,
+      win_streak: { value: bestStreak, match: bestStreakEnd, tied_matches: streakTies }
+    };
+  }
+
   function playerHistory(data, playerId) {
     const player = data.players.find(item => item.id === playerId);
     if (!player) return null;
+
     const matchesById = new Map(data.matches.map(match => [match.id, match]));
-    const appearances = data.match_players
+    const normalGoals = new Map();
+    const ownGoals = new Map();
+    data.goals.forEach(goal => {
+      if (goal.player_id !== playerId) return;
+      const target = goal.goal_type === 'normal' ? normalGoals : ownGoals;
+      target.set(goal.match_id, (target.get(goal.match_id) || 0) + 1);
+    });
+
+    // O histórico completo é usado para recordes e conquistas. A interface continua
+    // exibindo somente as dez aparições mais recentes.
+    const allAppearances = data.match_players
       .filter(participant => participant.player_id === playerId)
       .map(participant => ({ participant, match: matchesById.get(participant.match_id) }))
       .filter(appearance => appearance.match)
-      .sort((left, right) => byDateDesc(left.match, right.match))
-      .slice(0, 10)
+      .sort((left, right) => left.match.played_on.localeCompare(right.match.played_on) || left.match.id - right.match.id)
       .map(({ participant, match }) => {
         const summary = matchSummary(match, data);
-        const scores = scoresOf(match.id, data);
-        const playerScore = participant.team_side === 'A' ? scores.A : scores.B;
-        const opponentScore = participant.team_side === 'A' ? scores.B : scores.A;
+        const ownScore = participant.team_side === 'A' ? summary.score_a : summary.score_b;
+        const rivalScore = participant.team_side === 'A' ? summary.score_b : summary.score_a;
         return {
           ...summary,
           team_side: participant.team_side,
-          result: playerScore > opponentScore ? 'win' : playerScore < opponentScore ? 'loss' : 'draw',
-          goals: data.goals.filter(goal => goal.match_id === match.id && goal.player_id === playerId && goal.goal_type === 'normal').length,
-          own_goals: data.goals.filter(goal => goal.match_id === match.id && goal.player_id === playerId && goal.goal_type === 'own_goal').length,
+          result: ownScore > rivalScore ? 'win' : ownScore < rivalScore ? 'loss' : 'draw',
+          goals: normalGoals.get(match.id) || 0,
+          own_goals: ownGoals.get(match.id) || 0,
           assists: Number(participant.assists) || 0
         };
       });
+
+    const latestMatches = allAppearances.slice().reverse().slice(0, 10);
     return {
       player,
       stats: {
         internal: playerStats(player, 'internal', data),
         interclass: playerStats(player, 'interclass', data)
       },
-      matches: appearances
+      records: playerPersonalRecords(allAppearances),
+      achievements: playerAchievements(allAppearances),
+      matches: latestMatches
     };
   }
 

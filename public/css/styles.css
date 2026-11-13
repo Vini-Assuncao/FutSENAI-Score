@@ -442,13 +442,8 @@
 .player-profile-identity h2{margin:0;font:800 23px/1.2 var(--display);letter-spacing:-.5px}
 .player-profile-identity div>span:last-child{display:block;margin-top:7px;color:var(--muted)}
 .player-mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:18px}
-.player-mode-panel .panel-head{align-items:flex-start}
-.player-mode-panel .panel-subtitle{line-height:1.5}
-.player-win-rate{flex:none;background:var(--green-soft);color:var(--green);font-weight:800}
-.player-mode-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
-.player-mode-stats>div{display:grid;gap:4px;text-align:center}
-.player-mode-stats strong{font:800 20px var(--display);color:#30313b}
-.player-mode-stats span{font-weight:700}
+.player-detail-sections{display:grid;gap:16px}
+.player-detail-sections>.player-mode-grid,.player-detail-sections>.personal-records-section{margin:0}
 .player-history-panel{overflow:hidden}
 .player-history-list{padding:0 20px 12px}
 .player-history-match{display:grid;grid-template-columns:minmax(130px,1fr) auto minmax(140px,1.2fr) auto auto;align-items:center;gap:14px;border-top:1px solid #f0f0f3}
@@ -824,11 +819,6 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .player-profile-avatar{width:100px;height:100px;border-radius:28px;box-shadow:0 0 0 4px #fff,0 10px 26px rgba(22,23,35,.18)}
 .player-profile-identity h2{font-size:26px}
 .player-profile-identity div>span:last-child{font-size:13px}
-.player-mode-stats{gap:8px;padding:0 16px 18px}
-.player-mode-stats>div{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:12px;padding:13px 8px}
-.player-mode-stats strong{font-size:22px}
-.player-mode-stats span{font-size:10px;color:var(--muted-2)}
-.player-win-rate{font-size:11px;border-radius:999px;padding:6px 11px;border:1px solid #c9e9d9}
 .player-history-match{padding:14px 8px;border-radius:12px;border-top-color:var(--line-soft);transition:background .15s}
 .player-history-match:hover{background:var(--surface-2)}
 .player-history-match-date{font-size:12px}
@@ -1258,7 +1248,7 @@ noscript .noscript-msg{display:block;margin:40px auto;max-width:420px;padding:20
 .team-linkedin:hover{background:#0a66c2;color:#fff}
 
 /* Histórico do jogador: cards padronizados com as partidas */
-.pmc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:4px 20px 20px}
+.pmc-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:4px 20px 20px}
 .pmc{position:relative;background:#fff;border:1px solid var(--line);border-left:6px solid #9aa0ad;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease);min-width:0}
 .pmc:hover,.pmc:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow)}
 .pmc:focus-visible{outline:3px solid #f5a4b5;outline-offset:2px}
@@ -1281,34 +1271,8 @@ noscript .noscript-msg{display:block;margin:40px auto;max-width:420px;padding:20
 .pmc.is-draw .pmc-result{background:#eef0f4;color:#555762}
 .pmc-stat b{color:var(--ink);font-size:13px}
 .pmc-open{margin-left:auto;color:var(--red);font-weight:800}
+@media(max-width:1200px){.pmc-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.pmc-list{grid-template-columns:1fr;padding:4px 14px 16px}}
-
-/* Estatísticas do jogador: anel de aproveitamento, tiles coloridos e barra de resultados */
-.player-mode-panel{padding-bottom:18px}
-.pmp-body{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center;padding:6px 22px 4px}
-.pmp-ring{position:relative;width:118px;height:118px}
-.pmp-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.pmp-track{fill:none;stroke:#f0f1f5;stroke-width:9}
-.pmp-fill{fill:none;stroke:var(--red);stroke-width:9;transition:stroke-dasharray .6s var(--ease)}
-.pmp-ring div{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.pmp-ring strong{font:800 20px var(--display);letter-spacing:-.5px}
-.pmp-ring span{font-size:11px;color:var(--muted);font-weight:700}
-.pmp-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.pmp-tile{border-radius:14px;padding:12px 12px 11px;display:flex;flex-direction:column;gap:2px;border:1px solid transparent;min-width:0}
-.pmp-tile strong{font:800 24px/1.1 var(--display);letter-spacing:-.5px}
-.pmp-tile>span:last-child{font-size:11px;font-weight:700;opacity:.85}
-.pmp-icon{font-size:14px;opacity:.85}
-.tile-red{background:var(--red-soft);color:var(--red);border-color:var(--red-line)}
-.tile-blue{background:#eef4ff;color:var(--blue);border-color:#cfe0ff}
-.tile-green{background:var(--green-soft);color:var(--green);border-color:#bfe6d3}
-.tile-grey{background:#f3f4f7;color:#555762;border-color:#e3e5ec}
-.tile-dark{background:#fff;color:var(--ink);border-color:var(--line)}
-.pmp-bar{display:flex;height:10px;border-radius:999px;overflow:hidden;margin:16px 22px 0;background:#f0f1f5}
-.pmp-bar span{display:block;height:100%;transition:width .6s var(--ease)}
-.pmp-w{background:var(--green)}
-.pmp-d{background:#b6bac6}
-.pmp-l{background:var(--red)}
-@media(max-width:600px){.pmp-body{grid-template-columns:1fr;justify-items:center}.pmp-tiles{width:100%}}
 
 /* Marcos históricos: duas fotos sobrepostas na diagonal, no mesmo espaço do ícone de uma foto */
 .record-icon.record-duo{position:relative;overflow:visible;padding:0;background:transparent;border:0;border-radius:11px}
@@ -1339,13 +1303,6 @@ noscript .noscript-msg{display:block;margin:40px auto;max-width:420px;padding:20
 .compare-table td.num{border-left:1px solid #f1f2f6}
 .compare-table td.is-best{background:var(--green-soft);color:var(--green)}
 
-/* Estatísticas do jogador: só as tiles, com cores por categoria */
-.pmp-body{display:block;padding:6px 22px 20px}
-.pmp-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
-.tile-orange{background:#FFF8EF;color:#c8640c;border-color:#ffd3a6}
-.tile-loss{background:#fbd6df;color:#a80f31;border-color:#f3b4c3}
-.tile-red{background:var(--red-soft);color:var(--red);border-color:var(--red-line)}
-
 /* Últimas partidas: fundo bem claro conforme o resultado */
 .pmc.is-win{background:#f3fbf6}
 .pmc.is-loss{background:#fff4f6}
@@ -1356,12 +1313,6 @@ noscript .noscript-msg{display:block;margin:40px auto;max-width:420px;padding:20
 
 /* ---------- Ajustes: cores discretas, crachá de overall, logos da equipe ---------- */
 .player-overall{width:max-content;max-width:100%;justify-self:start;align-self:start}
-.tile-orange{background:#fff9f1;color:#b8610f;border-color:#fde3c4}
-.tile-red{background:#fff7f9;color:#c2375a;border-color:#fbd9e2}
-.tile-blue{background:#f6f9ff;color:#2f66c9;border-color:#dce8fb}
-.tile-green{background:#f3fbf6;color:#1f7a50;border-color:#d3eedd}
-.tile-grey{background:#f8f9fb;color:#5d606d;border-color:#e6e8ef}
-.tile-loss{background:#fcecf1;color:#9b2a4a;border-color:#f5cdd9}
 .team-logo{width:15px;height:15px;display:inline-block;vertical-align:-2px;margin-right:6px;background:center/contain no-repeat}
 .team-linkedin{color:#0e76a8;border-color:#0e76a8}
 .team-linkedin:hover{background:#0e76a8;color:#fff}
@@ -1388,7 +1339,7 @@ noscript .noscript-msg{display:block;margin:40px auto;max-width:420px;padding:20
 .best-mark.material-symbols-outlined{font-size:14px;margin-right:4px;color:var(--green)}
 .record-icon .material-symbols-outlined{font-size:18px}
 .duel-open .material-symbols-outlined,.pmc-open .material-symbols-outlined{font-size:14px;vertical-align:-2px}
-.pmc-stat .material-symbols-outlined,.pmp-icon .material-symbols-outlined{font-size:15px;vertical-align:-3px}
+.pmc-stat .material-symbols-outlined{font-size:15px;vertical-align:-3px}
 .team-logo{}
 
 
@@ -1571,10 +1522,6 @@ body{
 .stat-hero::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(240px 140px at 100% 0,rgba(255,255,255,.22),transparent 70%);z-index:0;pointer-events:none}
 .stat-hero:after{animation:floaty 8s ease-in-out infinite}
 .stat-hero-avatar{box-shadow:0 0 0 3px rgba(255,255,255,.35),0 10px 26px rgba(0,0,0,.28)}
-.pmp-tile{transition:transform .2s var(--ease),box-shadow .2s}
-.pmp-tile:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(22,23,35,.08)}
-.pmp-bar span{box-shadow:inset 0 -2px 0 rgba(0,0,0,.08)}
-
 /* ---------- Seção da equipe ---------- */
 .team-section{position:relative}
 .team-head h2{background:linear-gradient(100deg,var(--ink) 40%,#6b1126 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -1644,6 +1591,93 @@ body{
 .scorer-row:hover .goal-count{color:var(--rank-color)}
 
 /* Fora do pódio (4º em diante): hover e marcador lateral em azul, explícitos para não herdarem o vermelho */
+.scorer-row:not(.rank-gold):not(.rank-silver):not(.rank-bronze)::before{background:var(--blue)}
+.scorer-row:not(.rank-gold):not(.rank-silver):not(.rank-bronze):hover,.scorer-row:not(.rank-gold):not(.rank-silver):not(.rank-bronze):focus-visible{background:linear-gradient(90deg,#eef4ff,transparent 75%)}
+.scorer-row:not(.rank-gold):not(.rank-silver):not(.rank-bronze):hover .goal-count{color:var(--blue)}
+
+/* ---------- Perfil do jogador: recordes, conquistas e partidas recentes ---------- */
+.personal-records-section{margin:0 0 18px;padding:20px 22px 16px;border-radius:var(--radius-lg)}
+.personal-records-heading{margin-bottom:8px}
+.personal-records-heading h2{margin:0}
+.personal-records-heading p{margin:5px 0 0}
+.personal-record-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px}
+.player-mode-list{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}
+.personal-record-row{display:flex;align-items:center;gap:10px;min-width:0;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.player-mode-row.is-win .personal-record-icon,.player-mode-row.is-win .personal-record-result{color:var(--green)}
+.player-mode-row.is-loss .personal-record-icon,.player-mode-row.is-loss .personal-record-result{color:var(--red)}
+.personal-record-icon{display:grid;place-items:center;width:22px;flex:none;color:var(--muted)}
+.personal-record-icon .material-symbols-outlined{font-size:18px}
+.personal-record-copy{display:grid;gap:3px;min-width:0;flex:1}
+.personal-record-copy strong{color:var(--ink-2);font-size:11px;font-weight:800;line-height:1.35}
+.personal-record-copy small{color:var(--muted-2);font-size:9px;font-weight:600;line-height:1.35}
+.personal-record-result{display:flex;align-items:baseline;gap:5px;flex:none;color:var(--ink);white-space:nowrap}
+.personal-record-result strong{font:800 18px/1 var(--display)}
+.personal-record-result small{color:var(--muted-2);font-size:9px;font-weight:700}
+.personal-record-row.is-empty .personal-record-result,.personal-record-row.is-empty .personal-record-icon{color:var(--muted-2)}
+.achievement-total{display:flex;align-items:baseline;gap:4px;padding:7px 11px;border:1px solid var(--red-line);border-radius:11px;background:var(--red-soft);color:var(--red-dark);white-space:nowrap}
+.achievement-total strong{font:800 20px/1 var(--display)}
+.achievement-total span{font-size:10px;font-weight:800}
+.achievement-groups{padding:18px 20px 21px}
+.achievement-tier+.achievement-tier{margin-top:19px}
+.achievement-tier-heading{display:flex;align-items:center;gap:8px;margin:0 0 11px;padding:0 0 8px;border-bottom:1px solid #e5e6ea;background:transparent;color:var(--ink);font:800 10px var(--display)}
+.achievement-tier-heading span{display:grid;place-items:center;min-width:18px;height:18px;margin-left:auto;border-radius:99px;background:#f0f1f4;color:var(--ink);font:800 9px var(--font)}
+.achievement-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px 8px}
+.achievement-badge{--medal-color:#8b909b;--medal-tint:#eceef2;display:flex;flex-direction:column;align-items:center;min-width:0;padding:7px 5px 9px;text-align:center}
+.achievement-badge.is-unlocked{--medal-color:var(--green);--medal-tint:#d9efdf}
+.achievement-medal{position:relative;display:grid;place-items:center;width:52px;height:52px;flex:none;background:var(--medal-color);clip-path:polygon(50% 0%,60% 7%,70% 3%,76% 13%,88% 12%,89% 24%,98% 30%,92% 40%,100% 50%,92% 60%,98% 70%,89% 76%,88% 88%,76% 87%,70% 97%,60% 93%,50% 100%,40% 93%,30% 97%,24% 87%,12% 88%,11% 76%,2% 70%,8% 60%,0% 50%,8% 40%,2% 30%,11% 24%,12% 12%,24% 13%,30% 3%,40% 7%)}
+.achievement-medal:before{position:absolute;inset:4px;border:2px solid #fff;border-radius:50%;background:radial-gradient(circle,#fff 0 42%,var(--medal-tint) 43% 100%);content:""}
+.achievement-icon{position:relative;z-index:1;display:grid;place-items:center;color:var(--medal-color)}
+.achievement-icon .material-symbols-outlined{font-size:25px}
+.achievement-category{margin-top:9px;color:var(--muted-2);font-size:7px;font-weight:800;letter-spacing:.35px;text-transform:uppercase}
+.achievement-badge h4{max-width:100%;margin:3px 0;color:var(--ink-2);font:800 10px/1.3 var(--display)}
+.achievement-badge p{display:-webkit-box;max-width:100%;overflow:hidden;margin:0;color:var(--muted);font-size:8px;line-height:1.3;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.achievement-badge-progress{margin-top:5px;color:var(--medal-color);font-size:8px;font-weight:800;line-height:1.3}
+
+/* Cards de partidas: placar neutro, destaque vermelho discreto e resultado sem cores conflitantes. */
+.pmc-list{gap:13px;padding:5px 20px 20px}
+.pmc{gap:10px;padding:12px 12px 10px;border:1px solid var(--line);border-top:3px solid #b7bac4;border-left:1px solid var(--line);border-radius:13px;background:linear-gradient(145deg,#fff 0%,#fdfdff 100%);box-shadow:var(--shadow-sm);transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s var(--ease)}
+.pmc.is-win{border-top-color:var(--green)}
+.pmc.is-loss{border-top-color:var(--red)}
+.pmc.is-draw{border-top-color:#a5a8b2}
+.pmc:hover,.pmc:focus-visible{transform:translateY(-2px);border-color:#dedfe7;box-shadow:0 9px 22px rgba(24,27,42,.08)}
+.pmc:focus-visible{outline:3px solid #f5a4b5;outline-offset:2px}
+.pmc-top{font-size:11px}
+.pmc-date{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:10px;font-weight:800}
+.pmc-date .material-symbols-outlined{font-size:14px;color:#a1a4af}
+.pmc-kind{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border:1px solid #e9eaf0;border-radius:8px;background:#f7f8fa;color:#606473;font-size:9px;letter-spacing:.25px}
+.pmc-kind .material-symbols-outlined{font-size:14px}
+.pmc.is-interclass .pmc-kind{border-color:#e9eaf0;background:#f7f8fa;color:#606473}
+.pmc-scoreboard{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:6px;padding:9px 8px;border:1px solid #f0f1f5;border-radius:10px;background:linear-gradient(180deg,#fafbfc,#fff)}
+.pmc-team{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;color:#747887;text-align:center;font-size:10px;font-weight:700}
+.pmc-team>span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pmc-team.is-own{color:var(--ink);font-weight:900}
+.pmc-team small{padding:2px 6px;border-radius:5px;background:#f0f1f4;color:var(--muted);font-size:8px;font-weight:900}
+.pmc-score{color:var(--ink);font:800 22px/1 var(--display);letter-spacing:-.6px;white-space:nowrap}
+.pmc-score span{margin:0 4px;color:#b7bac3;font-size:18px}
+.pmc-foot{gap:7px;padding-top:8px;border-top:1px solid var(--line-soft);font-size:9px}
+.pmc-result{display:inline-flex;align-items:center;gap:4px;padding:5px 8px;font-size:9px;letter-spacing:.25px}
+.pmc-result .material-symbols-outlined{font-size:13px}
+.pmc.is-win .pmc-result{background:var(--green-soft);color:var(--green)}
+.pmc.is-loss .pmc-result{background:var(--red-soft);color:var(--red-dark)}
+.pmc.is-draw .pmc-result{background:#f0f1f4;color:#666a76}
+.pmc-contributions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pmc-stat{display:inline-flex;align-items:center;gap:4px;padding:4px 5px;border-radius:8px;background:#f6f7f9;color:#696d79;font-size:9px;white-space:nowrap}
+.pmc-stat .material-symbols-outlined{font-size:13px;vertical-align:0;color:#8a8e9a}
+.pmc.is-win .pmc-team small{background:var(--green-soft);color:var(--green)}
+.pmc.is-loss .pmc-team small{background:var(--red-soft);color:var(--red-dark)}
+.pmc.is-win .pmc-stat .material-symbols-outlined{color:var(--green)}
+.pmc.is-loss .pmc-stat .material-symbols-outlined{color:var(--red)}
+.pmc .pmc-stat.is-zero .material-symbols-outlined{color:#8a8e9a}
+.pmc-stat b{color:var(--ink-2);font-size:11px}
+.pmc-open{display:inline-flex;align-items:center;gap:3px;margin-left:auto;color:var(--muted);font-size:9px;font-weight:900;white-space:nowrap}
+.pmc.is-win .pmc-open{color:var(--green)}
+.pmc.is-loss .pmc-open{color:var(--red-dark)}
+
+@media(max-width:1100px){.achievement-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:760px){.personal-records-section{padding:17px 16px 14px}.personal-record-list,.player-mode-list{grid-template-columns:1fr}.achievement-groups{padding:15px 14px 17px}.achievement-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px 5px}.pmc-list{grid-template-columns:1fr;padding:4px 14px 16px}.pmc{padding:14px 13px 12px}}
+@media(max-width:520px){.personal-record-copy strong{font-size:10px}.personal-record-result strong{font-size:16px}.achievement-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.achievement-medal{width:46px;height:46px}.achievement-icon .material-symbols-outlined{font-size:22px}.pmc-foot{gap:6px}.pmc-open{font-size:0}.pmc-open .material-symbols-outlined{font-size:15px}.pmc-stat{padding:5px 6px}.pmc-result{padding:5px 7px}}
+@media(max-width:360px){.achievement-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.achievement-badge,.pmc{transition:none}}
 .scorer-row:not(.rank-gold):not(.rank-silver):not(.rank-bronze)::before{background:var(--red)}
 .scorer-row:not(.rank-gold):not(.rank-silver):not(.rank-bronze):hover,.scorer-row:not(.rank-gold):not(.rank-silver):not(.rank-bronze):focus-visible{background:linear-gradient(90deg,#ffeeee,transparent 75%)}
 .scorer-row:not(.rank-gold):not(.rank-silver):not(.rank-bronze):hover .goal-count{color:var(--red)}

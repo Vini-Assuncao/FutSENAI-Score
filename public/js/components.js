@@ -56,16 +56,20 @@ export function matchCard(match) {
 export function playerModeStats(title, subtitle, playerStats) {
   const s = playerStats || { matches_played: 0, goals: 0, assists: 0, wins: 0, draws: 0, losses: 0, win_rate: 0 };
   const tiles = [
-    ['scoreboard', 'Partidas', s.matches_played, 'tile-orange'],
-    ['sports_soccer', 'Gols', s.goals, 'tile-red'],
-    ['crown', 'Assistências', s.assists, 'tile-blue'],
-    ['editor_choice', 'Vitórias', s.wins, 'tile-green'],
-    ['drag_handle', 'Empates', s.draws, 'tile-grey'],
-    ['cancel', 'Derrotas', s.losses, 'tile-loss']
+    ['scoreboard', 'Partidas', s.matches_played, ''],
+    ['crown', 'Gols', s.goals, ''],
+    ['handshake', 'Assistências', s.assists, ''],
+    ['editor_choice', 'Vitórias', s.wins, 'is-win'],
+    ['drag_handle', 'Empates', s.draws, ''],
+    ['cancel', 'Derrotas', s.losses, 'is-loss']
   ];
-  return `<section class="panel player-mode-panel">
-    <div class="panel-head"><div><h2 class="panel-title">${title}</h2><div class="panel-subtitle">${subtitle}</div></div></div>
-    <div class="pmp-body"><div class="pmp-tiles">${tiles.map(([icon, label, value, cls]) => `<div class="pmp-tile ${cls}"><span class="pmp-icon">${miIcon(icon)}</span><strong>${value}</strong><span>${label}</span></div>`).join('')}</div></div>
+  return `<section class="panel personal-records-section">
+    <div class="personal-records-heading"><h2 class="panel-title">${esc(title)}</h2><p class="panel-subtitle">${esc(subtitle)}</p></div>
+    <div class="personal-record-list player-mode-list">${tiles.map(([icon, label, value, cls]) => `<div class="personal-record-row player-mode-row${cls ? ` ${cls}` : ''}">
+      <span class="personal-record-icon">${miIcon(icon)}</span>
+      <div class="personal-record-copy"><strong>${label}</strong></div>
+      <span class="personal-record-result"><strong>${value}</strong></span>
+    </div>`).join('')}</div>
   </section>`;
 }
 export function statsSortHeader(label, key) {

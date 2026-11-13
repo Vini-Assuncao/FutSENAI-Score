@@ -176,6 +176,7 @@ export function bindGlobalEvents() {
       '.stats-table tr[data-action="open-player-profile"]',
       '.match-row[data-action="open-match"]',
       '.match-card[data-action="open-match"]',
+      '.pmc[data-action="open-match"]',
       '.record-row[data-action]'
     ].join(','));
     if (clickableRow && event.target === clickableRow && (event.key === 'Enter' || event.key === ' ')) {
