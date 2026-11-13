@@ -6,14 +6,19 @@ import { esc, miIcon } from '../utils.js';
 
 import { api } from '../api.js';
 
-export async function renderDashboard() {
-  setLoading('Atualizando o placar da turma...');
+export async function loadDashboardData() {
   const [result, internalMatches, interclassMatches] = await Promise.all([
     api(`/api/dashboard?scope=${state.statsScope}`),
     api('/api/matches?scope=internal'),
     api('/api/matches?scope=interclass')
   ]);
   result.summary.allMatches = internalMatches.data.length + interclassMatches.data.length;
+  return result;
+}
+
+export async function renderDashboard() {
+  setLoading('Atualizando o placar da turma...');
+  const result = await loadDashboardData();
   state.dashboard = result;
   state.players = result.players;
   updateChrome();

@@ -6,7 +6,7 @@ import { setSidebarOpen, updateChrome } from './ui.js';
 import { renderCurrent } from './router.js';
 import { applyRoute, enableHistory, parseRoute, resolveRoute, syncHistory } from './routes.js';
 import { api } from './api.js';
-import { renderDashboard } from './views/dashboard.js';
+import { loadDashboardData, renderDashboard } from './views/dashboard.js';
 import { esc } from './utils.js';
 import { startPlayerCards } from './cards/futsenai-cards.js';
 import './effects.js';
@@ -63,7 +63,11 @@ window.addEventListener('popstate', async () => {
     await applyRouteFromLocation();
     updateChrome();
     if (state.view === 'dashboard') await renderDashboard();
-    else await renderCurrent();
+    else {
+      state.dashboard = await loadDashboardData();
+      state.players = state.dashboard.players;
+      await renderCurrent();
+    }
   } catch (error) {
     pageContent.innerHTML = `<div class="empty-state"><div class="empty-symbol">!</div><h3>Não foi possível carregar o FutSENAI Score</h3><p>Verifique se o servidor está iniciado ou se o arquivo de dados foi publicado em <strong>public/data/futsenai.json</strong>.</p><p style="font-size:10px">Detalhe: ${esc(error.message)}</p><button class="btn btn-primary" data-action="retry">Tentar novamente</button></div>`;
   }
